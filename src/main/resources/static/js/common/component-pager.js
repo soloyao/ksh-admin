@@ -57,6 +57,15 @@ Vue.component('component-pager', {
 			}
 		},
 		changePageSize: function(newPageSize) {
+			if (newPageSize == "all") {
+				this.$parent.size = this.total;
+				this.$emit("list", 1);
+				var _this = this;
+				setTimeout(function() {
+					_this.choosePage = 1;
+				});
+				return;
+			}
 			if (this.pageSize == newPageSize) {
 				return;
 			}
@@ -91,12 +100,12 @@ Vue.component('component-pager', {
 			"<li><div class='btn-group dropup pager-size-menu dropdown'>" +
 			"<button class='btn dropdown-toggle' data-toggle='dropdown'>每页<strong>{{pageSize}}</strong>条</button>" +
 			"<ul class='dropdown-menu'>" +
-			"<li :class='{active:pageSize==15}' @click='changePageSize(15)'><a href='javascript:void(0)'>15</a></li>" +
+			"<li :class='{active:pageSize==10}' @click='changePageSize(10)'><a href='javascript:void(0)'>10</a></li>" +
 			"<li :class='{active:pageSize==20}' @click='changePageSize(20)'><a href='javascript:void(0)'>20</a></li>" +
 			"<li :class='{active:pageSize==30}' @click='changePageSize(30)'><a href='javascript:void(0)'>30</a></li>" +
 			"<li :class='{active:pageSize==50}' @click='changePageSize(50)'><a href='javascript:void(0)'>50</a></li>" +
 			"<li :class='{active:pageSize==100}' @click='changePageSize(100)'><a href='javascript:void(0)'>100</a></li>" +
-			/*"<li :class='{active:pageSize==100}' @click='changePageSize(\"all\")'><a href='javascript:void(0)'>all</a></li>" +*/
+			"<li :class='{active:pageSize==total}' @click='changePageSize(\"all\")'><a href='javascript:void(0)'>all</a></li>" +
 			"</ul>" +
 			"</div></li>" +
 			"</ul>" +

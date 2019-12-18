@@ -6,22 +6,21 @@ $(function() {
 //		permissions: [],
 		itemList: [],
 		listThs: [
-			{name: '编号', width: 94, thname: 'id'},
-			{name: '名称', width: 310, thname: 'name'},
-			{name: '描述', width: 311, thname: 'desc'},
-			{name: 'url', width: 382, thname: 'url'},
-			{name: '操作', width: 284, thname: 'operate'}
+			{name: '菜单名称', width: 338, thname: 'cdmc'},
+			{name: '菜单描述', width: 338, thname: 'cdms'},
+			{name: '创建时间', width: 338, thname: 'cjsj'},
+			{name: '操作', width: 209, thname: 'operate'},
 		],
-		permissionParent4Add: {id: 0, name: "", desc: "", pid: 0, url: "", pid: 0},
-		permission4Add: {id: 0, name: "", desc: "", url: "", pid: 0},
+		permissionParent4Add: {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""},
+		permission4Add: {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""},
 		pagination: {},
 		keyword: "",
 		isEditShow: false,
 		isLoading: false,
 		editTitle: "",
 		parentEditTitle: "",
-		pid: 0,
-		size: 15
+		flzj: "",
+		size: 10
 	};
 	
 	var vue = new Vue({
@@ -29,22 +28,23 @@ $(function() {
 		data: data4Vue,
 		mounted: function() {
 			this.listParentPermission();
-			//this.list(1);
 			$("[data-toggle='tooltip']").tooltip();
 		},
 		methods: {
 			saveParent() {
 				var _this = this;
-				if (!_this.permissionParent4Add.name || !_this.permissionParent4Add.desc) {
+				if (!_this.permissionParent4Add.cdmc || !_this.permissionParent4Add.cdms) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
 				var url = "permissions";
-				if (_this.permissionParent4Add.id == 0) { //add
+				if (_this.permissionParent4Add.id == "") { //add
+					_this.permissionParent4Add.flzj = _this.permissionParent4Add.id;
+					_this.permissionParent4Add.cdlx = "0";
 					axios.post(url, this.permissionParent4Add).then(function(res) {
 						if (res.data.code == 0) {
 							_this.listParentPermission();
-							_this.permissionParent4Add = {id: 0, name: "", desc: "", pid: 0, url: "", pid: 0};
+							_this.permissionParent4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
 							myzui._success(res.data.msg);
 							$("#parentEditModal").modal("hide");
 						} else {
@@ -54,25 +54,26 @@ $(function() {
 				} else { //update
 					axios.put(url, this.permissionParent4Add).then(function(res) {
 						_this.listParentPermission();
-						_this.permissionParent4Add = {id: 0, name: "", desc: "", pid: 0, url: "", pid: 0};
-						myzui._success(res.data.msg);
+						_this.permissionParent4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
+						myzui._success(res.data);
 						$("#parentEditModal").modal("hide");
 					});
 				}
 			},
 			save: function() {
 				var _this = this;
-				if (!_this.permission4Add.name || !_this.permission4Add.desc || !_this.permission4Add.url) {
+				if (!_this.permission4Add.cdmc || !_this.permission4Add.cdms) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
 				var url = "permissions";
-				this.permission4Add.pid = _this.pid;
-				if (_this.permission4Add.id == 0) { //add
+				this.permission4Add.flzj = _this.flzj;
+				this.permission4Add.cdlx = "1";
+				if (_this.permission4Add.id == "") { //add
 					axios.post(url, this.permission4Add).then(function(res) {
 						if (res.data.code == 0) {
 							_this.list(1);
-							_this.permission4Add = {id: 0, name: "", desc: "", url: "", pid: 0};
+							_this.permission4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
 							myzui._success(res.data.msg);
 							_this.isEditShow = false;
 						} else {
@@ -82,7 +83,7 @@ $(function() {
 				} else { //update
 					axios.put(url, this.permission4Add).then(function(res) {
 						_this.list(1);
-						_this.permission4Add = {id: 0, name: "", desc: "", url: "", pid: 0};
+						_this.permission4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
 						myzui._success(res.data);
 						_this.isEditShow = false;
 					});
@@ -94,19 +95,23 @@ $(function() {
 			addEdit: function() {
 				this.isEditShow = true;
 				this.editTitle = "新增子菜单";
-				this.permission4Add = {id: 0, name: "", desc: "", url: "", pid: 0};
+				this.permission4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
 			},
 			addEditParent: function() {
 				$("#parentEditModal").modal({
 					show: true
 				});
 				this.parentEditTitle = "新增父菜单";
-				this.permissionParent4Add = {id: 0, name: "", desc: "", pid: 0, url: "", pid: 0};
+				this.permissionParent4Add = {id: "", flzj: "", cdmc: "", cdms: "", cdlx: "", cjsj: "", isdel: ""};
 			},
 			updateEditParent: function() {
 				this.permissionParent4Add.id = this.parentPermission.id;
-				this.permissionParent4Add.name = this.parentPermission.name;
-				this.permissionParent4Add.desc = this.parentPermission.desc;
+				this.permissionParent4Add.flzj = this.parentPermission.flzj;
+				this.permissionParent4Add.cdmc = this.parentPermission.cdmc;
+				this.permissionParent4Add.cdms = this.parentPermission.cdms;
+				this.permissionParent4Add.cdlx = this.parentPermission.cdlx;
+				this.permissionParent4Add.cjsj = this.parentPermission.cjsj;
+				this.permissionParent4Add.isdel = this.parentPermission.isdel;
 				$("#parentEditModal").modal({
 					show: true
 				});
@@ -116,33 +121,34 @@ $(function() {
 				this.isEditShow = true;
 				this.editTitle = "修改子菜单";
 				this.permission4Add.id = permission.id;
-				this.permission4Add.name = permission.name;
-				this.permission4Add.desc = permission.desc;
-				this.permission4Add.url = permission.url;
-				this.permission4Add.pid = permission.pid;
+				this.permission4Add.flzj = permission.flzj;
+				this.permission4Add.cdmc = permission.cdmc;
+				this.permission4Add.cdms = permission.cdms;
+				this.permission4Add.cdlx = permission.cdlx;
+				this.permission4Add.cjsj = permission.cjsj;
+				this.permission4Add.isdel = permission.isdel;
 			},
 			listParentPermission: function() {
 				var url = "parentPermissions";
 				var _this = this;
 				axios.get(url).then(function(res) {
 					_this.parentPermissions = res.data;
-					_this.pid = _this.parentPermissions[0].id;
+					_this.flzj = _this.parentPermissions[0].id;
 					_this.parentPermission = _this.parentPermissions[0];
 					_this.active = _this.parentPermissions[0];
 					_this.list(1);
 				});
 			},
 			parentClick: function(p, $index) {
-//				this.active = $index;
 				this.active = p;
 				this.parentPermission = p;
-				this.pid = p.id;
+				this.flzj = p.id;
 				this.list(1);
 			},
 			list: function(start) {
 				var _this = this;
 				_this.isLoading = true;
-				var url = "permissions?start=" + start + "&keyword=" + _this.keyword + "&pid=" + _this.pid + "&size=" + _this.size;
+				var url = "permissions?start=" + start + "&keyword=" + _this.keyword + "&flzj=" + _this.flzj + "&size=" + _this.size;
 				axios.get(url).then(function(res) {
 					_this.pagination = res.data;
 					_this.itemList = res.data.list;

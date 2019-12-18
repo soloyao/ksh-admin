@@ -5,60 +5,60 @@
   
     <mapper namespace="com.hnkc.mapper.RoleMapper">
     	<select id="exist" resultType="int">
-    		select count(*) from role where name = #{name}
+    		select count(*) from t_sys_js where jsmc = #{jsmc} and isdel = '0'
     	</select>
     	
     	<resultMap type="Role" id="roleBean">
     		<id column="id" property="id"/>
-    		<result column="name" property="name"/>
-    		<result column="desc" property="desc"/>
+    		<result column="jsmc" property="jsmc"/>
+    		<result column="jsms" property="jsms"/>
+    		<result column="cjsj" property="cjsj"/>
+    		<result column="isdel" property="isdel"/>
     		
     		<collection property="permissions" ofType="Permission"
     		javaType="java.util.List" select="getPermissionByRoleId" column="id">
     			<id column="id" property="id"/>
-    			<result column="name" property="name"/>
-    			<result column="desc" property="desc"/>
-    			<result column="url" property="url"/>
+    			<result column="flzj" property="flzj"/>
+    			<result column="cdmc" property="cdmc"/>
+    			<result column="cdms" property="cdms"/>
+    			<result column="cdlx" property="cdlx"/>
+    			<result column="cjsj" property="cjsj"/>
+    			<result column="isdel" property="isdel"/>
     		</collection>
     	</resultMap>
     	
     	<select id="getPermissionByRoleId" resultType="Permission">
-    		select p.id,p.name,p.desc_ 'desc',p.url from permission p
-    		left join role_permission rp on p.id = rp.pid where rp.rid = #{rid}
+    		select p.* from t_sys_cd p
+    		left join t_sys_jscdgx rp on p.id = rp.cdzj where rp.jszj = #{jszj} and p.isdel = '0' and rp.isdel = '0'
     	</select>
     	
     	<select id="list" resultMap="roleBean">
-    		select id,name,desc_ 'desc' from role
+    		select * from t_sys_js where isdel = '0'
     		<if test="keyword != null">
-    			where name like concat('%', #{keyword}, '%')
+    			and jsmc like concat('%', #{keyword}, '%')
     		</if>
+    		order by cjsj desc
     	</select>
     	
-    	<!-- <select id="list" resultType="Role">
-    		select id, name, desc_ 'desc' from role
-    		<if test="keyword != null">
-    			where name like concat('%', #{keyword}, '%')
-    		</if>
-    	</select> -->
     	<insert id="add" useGeneratedKeys="true" keyProperty="id">
     		insert into role(name, desc_) values(#{name}, #{desc})
     	</insert>
-    	<delete id="delete">
-    		delete from role where id = #{id}
-    	</delete>
-    	<delete id="deletePermissionByRoleId">
-    		delete from role_permission where rid = #{id}
-    	</delete>
+    	<update id="delete">
+    		update t_sys_js set isdel = '1' where id = #{id}
+    	</update>
+    	<update id="deletePermissionByRoleId">
+    		update t_sys_jscdgx set isdel = '1' where jszj = #{jszj}
+    	</update>
     	<insert id="addPermissionByRoleId">
-    		insert into role_permission(rid,pid) values(#{rid},#{pid})
+    		insert into t_sys_jscdgx(jszj, cdzj) values(#{jszj}, #{cdzj})
     	</insert>
-    	<delete id="deleteUserByRoleId">
-    		delete from user_role where rid = #{id}
-    	</delete>
+    	<update id="deleteUserByRoleId">
+    		update t_sys_yhjsgx set isdel = '1' where jszj = #{jszj}
+    	</update>
     	<update id="update">
-    		update role set name = #{name}, desc_ = #{desc} where id = #{id}
+    		update t_sys_js set jsmc = #{jsmc}, jsms = #{jsms} where id = #{id}
     	</update>
     	<select id="get" resultMap="roleBean">
-    		select id, name, desc_ 'desc' from role where id = #{id}
+    		select * from t_sys_hs where id = #{id}
     	</select>
     </mapper>

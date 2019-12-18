@@ -20,7 +20,7 @@
 				<div class="panel-body">
 					<div class="list-group">
 						<template v-for="(p, $index) in parentPermissions">
-							<a href="javascript:void(0)" class="list-group-item" @click="parentClick(p,$index)" :class="{active:p==active}">{{p.name}}</a>
+							<a href="javascript:void(0)" class="list-group-item" @click="parentClick(p,$index)" :class="{active:p==active}">{{p.cdmc}}</a>
 						</template>
 					</div>
 				</div>
@@ -36,9 +36,9 @@
 						<div class="input-group search-div">
 							<input type="text" class="form-control" id="keyword" placeholder="请输入关键词">
 							<span class="input-group-btn">
-								<button class="btn btn-primary" @click="search">搜索</button>
-								<button class="btn btn-default" @click="reset">重置</button>
-								<button class="btn btn-success" @click="addEdit">新增</button>
+								<button class="btn btn-primary" @click="search"><i class="icon icon-search"></i>搜索</button>
+								<button class="btn btn-default" @click="reset"><i class="icon icon-refresh"></i>重置</button>
+								<button class="btn btn-success" @click="addEdit"><i class="icon icon-plus"></i>新增</button>
 							</span>
 						</div>
 						<!-- search end -->
@@ -71,13 +71,13 @@
 							<div class="form-group">
 								<label for="parentName" class="col-sm-2 required">名称</label>
 								<div class="col-sm-9">
-									<input class="form-control" v-model="permissionParent4Add.name" id="parentName" placeholder="名称" />
+									<input class="form-control" v-model="permissionParent4Add.cdmc" id="parentName" placeholder="名称" />
 								</div>
 							</div>
 							<div class="form-group">
 								<label for="parentDesc" class="col-sm-2 required">描述</label>
 								<div class="col-sm-9">
-									<input class="form-control" v-model="permissionParent4Add.desc" id="parentDesc" placeholder="描述" />
+									<input class="form-control" v-model="permissionParent4Add.cdms" id="parentDesc" placeholder="描述" />
 								</div>
 							</div>
 						</div>
@@ -99,27 +99,21 @@
 			</div>
 			<div class="edit-panel-div-content form-horizontal">
 				<div class="form-group">
-					<label for="name" class="col-sm-3">名称</label>
+					<label for="name" class="col-sm-3 required">名称</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="permission4Add.name" id="name" placeholder="名称" />
+						<input class="form-control" v-model="permission4Add.cdmc" id="cdmc" placeholder="名称" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="desc" class="col-sm-3">描述</label>
+					<label for="desc" class="col-sm-3 required">描述</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="permission4Add.desc" id="desc" placeholder="描述" />
-					</div>
-				</div>
-				<div class="form-group">
-					<label for="url" class="col-sm-3">url</label>
-					<div class="col-sm-9">
-						<input class="form-control" v-model="permission4Add.url" id="url" placeholder="url" />
+						<input class="form-control" v-model="permission4Add.cdms" id="cdms" placeholder="描述" />
 					</div>
 				</div>
 			</div>
 			<div class="edit-panel-div-footer">
-				<button class="btn btn-success" @click="save">保存</button>
-				<button class="btn btn-default" @click="cancel">取消</button>
+				<button class="btn btn-success" @click="save"><i class="icon icon-check"></i>保存</button>
+				<button class="btn btn-default" @click="cancel"><i class="icon icon-times"></i>取消</button>
 			</div>
 		</div>
 		<div class="edit-panel-div-shim" @click="cancel" :class="isEditShow?'active':''"></div>

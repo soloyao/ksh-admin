@@ -77,6 +77,48 @@ public class IndexController {
 		ModelAndView mav = new ModelAndView("hotel/listHotel");
 		return mav;
 	}
+
+	@GetMapping("/listSp")
+	@LogAnnotation(desc = "跳转至视频管理页面")
+	public ModelAndView listSp() {
+		ModelAndView mav = new ModelAndView("sp/listSp");
+		return mav;
+	}
+	
+	@GetMapping("/listWb")
+	@LogAnnotation(desc = "跳转至网吧管理页面")
+	public ModelAndView listWb() {
+		ModelAndView mav = new ModelAndView("wb/listWb");
+		return mav;
+	}
+	
+	@GetMapping("/listYy")
+	@LogAnnotation(desc = "跳转至医院管理页面")
+	public ModelAndView listYy() {
+		ModelAndView mav = new ModelAndView("yy/listYy");
+		return mav;
+	}
+	
+	@GetMapping("/listJyz")
+	@LogAnnotation(desc = "跳转至加油站管理页面")
+	public ModelAndView listJyz() {
+		ModelAndView mav = new ModelAndView("jyz/listJyz");
+		return mav;
+	}
+	
+	@GetMapping("/listKk")
+	@LogAnnotation(desc = "跳转至卡口管理页面")
+	public ModelAndView listKk() {
+		ModelAndView mav = new ModelAndView("kk/listKk");
+		return mav;
+	}
+	
+	@GetMapping("/listLd")
+	@LogAnnotation(desc = "跳转至旅店管理页面")
+	public ModelAndView listLd() {
+		ModelAndView mav = new ModelAndView("ld/listLd");
+		return mav;
+	}
 	
 	@GetMapping("/listHero")
 	@LogAnnotation(desc = "跳转至英雄管理页面")

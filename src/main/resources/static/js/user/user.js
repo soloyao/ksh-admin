@@ -1,6 +1,36 @@
 $(function() {
+	var zTreeObjZzjg;
+	var settingZzjg = {
+		view: {
+			selectedMulti: false
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "pid",
+				rootPId: 0
+			},
+			key: {
+				url: "xUrl"
+			}
+		},
+		callback: {
+			onClick: function(e, treeId, treeNode, clickFlag) {
+				vue.zzjgdm = treeNode.id;
+				vue.list(1);
+			}
+		}
+	};
+	var zTreeNodesZzjg = [];
+	
 	var zTreeObj;
 	var setting = {
+		data: {
+			key: {
+				name: "jsmc"
+			}
+		},
 		check: {
 			enable: true,
 			chkStyle: "radio"
@@ -18,6 +48,11 @@ $(function() {
 	
 	var zTreeObjBatch;
 	var settingBatch = {
+		data: {
+			key: {
+				name: "jsmc"
+			}
+		},
 		check: {
 			enable: true,
 			chkStyle: "radio"
@@ -36,14 +71,15 @@ $(function() {
 	var data4Vue = {
 		roles: [],
 		users: [],
-		user4Add: {id: 0, name: "", password: "", realname: "", phone: "", sex: "", roles: []},
+		user4Add: {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []},
 		pagination: {},
 		keyword: "",
 		isEditShow: false,
 		isLoading: false,
 		editTitle: "",
-		size: 15,
-		checkboxAllFlag: false
+		size: 10,
+		checkboxAllFlag: false,
+		zzjgdm: ""
 	};
 	
 	var vue = new Vue({
@@ -52,14 +88,25 @@ $(function() {
 		mounted: function() {
 			this.list(1);
 			this.listRoles();
+			this.listZzjgTree();
+			$("[data-toggle='tooltip']").tooltip();
 		},
 		methods: {
-			getCheck() {
-				var str = $("tbody .checked").map(function(item, ele) {
-					console.log($(ele).data("id"));
-					return $(ele).data("id");
-				}).get().join(",");
-				console.log(str);
+			cancelTreeZzjg() {
+				if (!this.zzjgdm) return;
+				this.zzjgdm = "";
+				zTreeObjZzjg.cancelSelectedNode();
+				this.list(1);
+			},
+			list: function(start) {
+				var _this = this;
+				_this.isLoading = true;
+				var url = "users?start=" + start + "&keyword=" + _this.keyword + "&size=" + _this.size + "&zzjgdm=" + _this.zzjgdm;
+				axios.get(url).then(function(res) {
+					_this.pagination = res.data;
+					_this.users = res.data.list;
+					_this.isLoading = false;
+				});
 			},
 			checkboxAll: function() {
 				if (!this.checkboxAllFlag) {
@@ -87,6 +134,16 @@ $(function() {
 					$(".checkbox-parent").removeClass("checked");
 				}
 			},
+			listZzjgTree() {
+				var url = "listPcsTree";
+				axios.get(url).then(function(res) {
+					if (res.data.code == 0) {
+						zTreeNodesZzjg = res.data.data;
+						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
+						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
+					}
+				});
+			},
 			listRoles: function() {
 				var _this = this;
 				var url = "listRoles"
@@ -95,7 +152,7 @@ $(function() {
 					zTreeNodesBatch = res.data;
 					zTreeNodes = res.data;
 					zTreeObjBatch = $.fn.zTree.init($("#treeBatch"), settingBatch, zTreeNodesBatch);
-					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("name", "用户", null), true ,false);
+					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
 					zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
 					zTreeObjBatch.expandAll(true);
 					zTreeObj.expandAll(true);
@@ -120,7 +177,7 @@ $(function() {
 				}
 				axios.post("usersBatch", {userIds: userIds, roleIds: roleIds}).then(function(res) {
 					myzui._success("角色分配成功");
-					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("name", "用户", null), true ,false);
+					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
 					_this.list(1);
 					_this.checkboxAllFlag = true;
 					_this.checkboxAll();
@@ -128,7 +185,7 @@ $(function() {
 			},
 			save: function() {
 				var _this = this;
-				if (!this.user4Add.name || !this.user4Add.password || !this.user4Add.realname || !this.user4Add.phone || !this.user4Add.sex) {
+				if (!this.user4Add.yhzh || !this.user4Add.yhmm || !this.user4Add.yhxm || !this.user4Add.zzjgdm || !this.user4Add.zzjgmc) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
@@ -145,7 +202,7 @@ $(function() {
 					axios.post(url, _this.user4Add).then(function(res) {
 						if (res.data.code == 0) {
 							_this.list(1);
-							_this.user4Add = {id: 0, name: "", password: "", realname: "", phone: "", sex: "", roles: []};
+							_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
 							myzui._success(res.data.msg);
 							_this.isEditShow = false;
 						} else {
@@ -155,7 +212,7 @@ $(function() {
 				} else { //update
 					axios.put(url, _this.user4Add).then(function(res) {
 						_this.list(1);
-						_this.user4Add = {id: 0, name: "", password: "", realname: "", phone: "", sex: "", roles: []};
+						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
 						myzui._success(res.data);
 						_this.isEditShow = false;
 					});
@@ -167,41 +224,39 @@ $(function() {
 			addEdit: function() {
 				this.isEditShow = true;
 				this.editTitle = "新增";
-				this.user4Add = {id: 0, name: "", password: "", realname: "", phone: "", sex: "", roles: []};
-				zTreeObj.checkNode(zTreeObj.getNodeByParam("name", "用户", null), true ,false);
+				this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
+				zTreeObj.checkNode(zTreeObj.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
 			},
 			updateEdit: function(user) {
 				this.isEditShow = true;
 				this.editTitle = "修改";
 				this.user4Add.id = user.id;
-				this.user4Add.name = user.name;
-				this.user4Add.password = user.password;
-				this.user4Add.realname = user.realname;
-				this.user4Add.phone = user.phone;
-				this.user4Add.sex = user.sex;
+				this.user4Add.yhzh = user.yhzh?user.yhzh:"";
+				this.user4Add.yhmm = user.yhmm?user.yhmm:"";
+				this.user4Add.yhxm = user.yhxm?user.yhxm:"";
+				this.user4Add.jybh = user.jybh?user.jybh:"";
+				this.user4Add.jylx = user.jylx?user.jylx:"";
+				this.user4Add.zw = user.zw?user.zw:"";
+				this.user4Add.yhxb = user.yhxb?user.yhxb:"";
+				this.user4Add.sjhm = user.sjhm?user.sjhm:"";
+				this.user4Add.cjsj = user.cjsj?user.cjsj:"";
+				this.user4Add.isdel = user.isdel;
+				this.user4Add.zzjgdm = user.zzjgdm;
+				this.user4Add.zzjgmc = user.zzjgmc;
+				this.user4Add.qydm = user.qydm;
 				zTreeObj.checkNode(zTreeObj.getNodeByParam("id", user.roles.length > 0 ? user.roles[0].id : 0, null), true, false);
-			},
-			list: function(start) {
-				var _this = this;
-				_this.isLoading = true;
-				var url = "users?start=" + start + "&keyword=" + _this.keyword + "&size=" + _this.size;
-				axios.get(url).then(function(res) {
-					_this.pagination = res.data;
-					_this.users = res.data.list;
-					_this.isLoading = false;
-				});
 			},
 			add: function() {
 				var _this = this;
 				var url = "users";
-				if (!this.user4Add.name || !this.user4Add.password || !this.user4Add.realname || !this.user4Add.phone || !this.user4Add.sex) {
+				if (!this.user4Add.yhzh || !this.user4Add.yhmm || !this.user4Add.yhxm || !this.user4Add.zzjgdm || !this.user4Add.zzjgmc) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
 				axios.post(url, this.user4Add).then(function(res) {
 					if (res.data.code == 0) {
 						_this.list(1);
-						_this.user4Add = {id: 0, name: "", password: "", realname: "", phone: "", sex: ""};
+						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
 						myzui._success(res.data.msg);
 					} else {
 						myzui._error(res.data.msg);
@@ -216,9 +271,6 @@ $(function() {
 						_this.list(1);
 					});
 				});
-			},
-			edit: function(id) {
-				location.href = "editUser?id=" + id;
 			},
 			reset: function() {
 				var _this = this;

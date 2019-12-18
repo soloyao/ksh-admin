@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.hnkc.pojo.User;
 
 
+
 @Component
 public class LoginInterceptor implements HandlerInterceptor{
 

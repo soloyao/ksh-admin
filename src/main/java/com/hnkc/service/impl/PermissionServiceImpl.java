@@ -7,11 +7,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSONArray;
-import com.alibaba.fastjson.JSONObject;
-import com.hnkc.mapper.PermissionMapper;
 import com.hnkc.pojo.Permission;
-import com.hnkc.pojo.User;
+import com.hnkc.mapper.PermissionMapper;
 import com.hnkc.service.PermissionService;
 
 @Service
@@ -24,16 +21,16 @@ public class PermissionServiceImpl implements PermissionService {
 	}
 
 	@Override
-	public Permission get(int id) {
+	public Permission get(String id) {
 		return permissionMapper.get(id);
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(String id) {
 		permissionMapper.delete(id);//删除本身
 		permissionMapper.deleteRoleByPermissionId(id);//删除和菜单关联的角色
 		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("pid", String.valueOf(id));
+		paramMap.put("flzj", String.valueOf(id));
 		List<Permission> list = permissionMapper.list(paramMap);
 		for (Permission permission : list) {
 			permissionMapper.deleteRoleByPermissionId(permission.getId());
@@ -54,39 +51,6 @@ public class PermissionServiceImpl implements PermissionService {
 	@Override
 	public int exist(Permission permission) {
 		return permissionMapper.exist(permission);
-	}
-
-	@Override
-	public JSONArray listByUser(User user) {
-		List<Permission> list = permissionMapper.listByUser(user);
-		if (null != list && list.size() != 0) {
-			JSONArray parentArr = new JSONArray();
-			for (Permission parent : list) {
-				if (0 == parent.getPid()) {
-//					System.out.println(parent.getName());
-					JSONObject parentObj = new JSONObject();
-					parentObj.put("id", parent.getId());
-					parentObj.put("name", parent.getName());
-					parentObj.put("url", parent.getUrl());
-					JSONArray childrenArr = new JSONArray();
-					for (Permission children : list) {
-						if (parent.getId() == children.getPid()) {
-//							System.out.println("\t" + children.getName());
-							JSONObject childrenObj = new JSONObject();
-							childrenObj.put("id", children.getId());
-							childrenObj.put("name", children.getName());
-							childrenObj.put("url", children.getUrl());
-							childrenArr.add(childrenObj);
-						}
-					}
-					parentObj.put("children", childrenArr);
-					parentArr.add(parentObj);
-				}
-			}
-			return parentArr;
-		} else {
-			return null;
-		}
 	}
 
 	@Override

@@ -1,25 +1,39 @@
 package com.hnkc.pojo;
 
 public class UserRole {
-	private int id;
-	private int uid;
-	private int rid;
-	public int getId() {
+	private String id;
+	private String yhzj;
+	private String jszj;
+	private String cjsj;
+	private String isdel;
+	public String getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
-	public int getUid() {
-		return uid;
+	public String getYhzj() {
+		return yhzj;
 	}
-	public void setUid(int uid) {
-		this.uid = uid;
+	public void setYhzj(String yhzj) {
+		this.yhzj = yhzj;
 	}
-	public int getRid() {
-		return rid;
+	public String getJszj() {
+		return jszj;
 	}
-	public void setRid(int rid) {
-		this.rid = rid;
+	public void setJszj(String jszj) {
+		this.jszj = jszj;
+	}
+	public String getCjsj() {
+		return cjsj;
+	}
+	public void setCjsj(String cjsj) {
+		this.cjsj = cjsj;
+	}
+	public String getIsdel() {
+		return isdel;
+	}
+	public void setIsdel(String isdel) {
+		this.isdel = isdel;
 	}
 }

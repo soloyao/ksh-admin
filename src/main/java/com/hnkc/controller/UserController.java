@@ -24,10 +24,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hnkc.annotation.LogAnnotation;
+import com.hnkc.pojo.PcsTree;
 import com.hnkc.pojo.Role;
 import com.hnkc.pojo.User;
 import com.hnkc.service.RoleService;
 import com.hnkc.service.UserService;
+import com.hnkc.util.MD5;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -37,9 +39,21 @@ public class UserController {
 	@Autowired UserService userService;
 	@Autowired RoleService roleService;
 	
+	@GetMapping("/listPcsTree")
+	@LogAnnotation(desc = "获取所有单位树")
+	public String listPcsTree() {
+		List<PcsTree> list = userService.listPcsTree();
+		JSONObject json = new JSONObject();
+		json.put("code", 0);
+		json.put("msg", "获取成功");
+		json.put("data", list);
+		return json.toJSONString();
+	}
+	
 	@PostMapping("/login")
 	@LogAnnotation(desc = "登录")
-	public String login(@RequestBody User user, HttpSession session) {
+	public String login(@RequestBody User user, HttpSession session) throws NoSuchAlgorithmException {
+		user.setYhmm(MD5.md5(user.getYhmm()));
 		User loginUser = userService.login(user);
 		JSONObject json = new JSONObject();
 		if (null == loginUser) {
@@ -65,11 +79,15 @@ public class UserController {
 	@LogAnnotation(desc = "分页获取所有用户")
 	public PageInfo<User> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
-			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
+			@RequestParam(value = "keyword", defaultValue = "") String keyword,
+			@RequestParam(value = "zzjgdm", defaultValue = "") String zzjgdm) {
 		PageHelper.startPage(start, size, "id desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if (!StringUtils.isEmpty(keyword)) {
-			paramMap.put("keyword", keyword);
+			paramMap.put("keyword", "%" + keyword + "%");
+		}
+		if (!StringUtils.isEmpty(zzjgdm)) {
+			paramMap.put("zzjgdm", zzjgdm);
 		}
 		List<User> us = userService.list(paramMap);
 		PageInfo<User> page = new PageInfo<User>(us, 5);
@@ -78,7 +96,7 @@ public class UserController {
 	
 	@GetMapping("/users/{id}")
 	@LogAnnotation(desc = "获取单个用户")
-	public String get(@PathVariable("id") int id) {
+	public String get(@PathVariable("id") String id) {
 		User user = userService.get(id);
 		List<Role> roles = roleService.list(null);
 		JSONObject json = new JSONObject();
@@ -107,7 +125,7 @@ public class UserController {
 			roleIds.add(roleStr);
 		}
 		userService.updateBatch(userIds, roleIds);
-		return "success";
+		return "分配成功";
 	}
 	
 	@PostMapping("/users")
@@ -130,13 +148,13 @@ public class UserController {
 	@LogAnnotation(desc = "修改用户")
 	public String update(@RequestBody User user) throws NoSuchAlgorithmException {
 		userService.update(user);
-		return "success";
+		return "修改成功";
 	}
 	
 	@DeleteMapping("/users/{id}")
 	@LogAnnotation(desc = "删除用户")
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") String id) {
 		userService.delete(id);
-		return "success";
+		return "删除成功";
 	}
 }

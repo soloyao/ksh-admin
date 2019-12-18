@@ -12,3 +12,14 @@ div.assign-div {
 	overflow: auto;
 	margin: 0 auto;
 }
+
+.panel-heading i{
+	cursor:pointer;
+}
+.panel-heading i:hover{
+	color:#3280fc;
+}
+.panel-heading i{
+	font-size:16px;
+	margin-right:5px;
+}

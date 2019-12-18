@@ -5,8 +5,10 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.hnkc.pojo.PcsTree;
 import com.hnkc.pojo.User;
 import com.hnkc.pojo.UserRole;
+
 
 @Mapper
 public interface UserMapper {
@@ -15,8 +17,9 @@ public interface UserMapper {
 	List<User> list(Map<String, String> paramMap);
 	void add(User user);
 	void update(User user);
-	void delete(int id);
-	void deleteRoleByUserId(int id);
-	User get(int id);
+	void delete(String id);
+	void deleteRoleByUserId(String id);
+	User get(String id);
 	void addRoleByUserId(UserRole userRole);
+	List<PcsTree> listPcsTree();
 }

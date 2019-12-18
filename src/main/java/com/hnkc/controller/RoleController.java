@@ -52,7 +52,7 @@ public class RoleController {
 	
 	@GetMapping("/roles/{id}")
 	@LogAnnotation(desc = "获取单个角色")
-	public String get(@PathVariable("id") int id) {
+	public String get(@PathVariable("id") String id) {
 		Role role = roleService.get(id);
 		List<Permission> permissions = permissionService.list(null);
 		json.put("role", role);
@@ -80,7 +80,7 @@ public class RoleController {
 			permissionIds.add(permissionStr);
 		}
 		roleService.updateBatch(roleIds, permissionIds);
-		return "success";
+		return "分配成功";
 	}
 	
 	@PostMapping("/roles")
@@ -102,13 +102,13 @@ public class RoleController {
 	@LogAnnotation(desc = "修改角色")
 	public String update(@RequestBody Role role) {
 		roleService.update(role);
-		return "success";
+		return "修改成功";
 	}
 	
 	@DeleteMapping("/roles/{id}")
 	@LogAnnotation(desc = "删除角色")
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") String id) {
 		roleService.delete(id);
-		return "success";
+		return "删除成功";
 	}
 }

@@ -12,7 +12,7 @@ $(function() {
 			simpleData: {
 				enable: true,
 				idKey: "id",
-				pIdKey: "pid",
+				pIdKey: "flzj",
 				rootPId: 0
 			},
 			key: {
@@ -40,7 +40,7 @@ $(function() {
 			simpleData: {
 				enable: true,
 				idKey: "id",
-				pIdKey: "pid",
+				pIdKey: "flzj",
 				rootPId: 0
 			},
 			key: {
@@ -58,13 +58,13 @@ $(function() {
 	var data4Vue = {
 		permissions: [],
 		roles: [],
-		role4Add: {id: 0, name: "", desc: "", permissions: []},
+		role4Add: {id: "", jsmc: "", jsms: "", cjsj: "", isdel: "", permissions: []},
 		pagination: {},
 		keyword: "",
 		isEditShow: false,
 		isLoading: false,
 		editTitle: "",
-		size: 15,
+		size: 10,
 		checkboxAllFlag: false
 	};
 	
@@ -114,6 +114,9 @@ $(function() {
 				var url ="listPermissions";
 				axios.get(url).then(function(res) {
 					_this.permissions = res.data;
+					res.data.map(function(item) {
+						item.name = item.cdmc;
+					});
 					zTreeNodesBatch = res.data;
 					zTreeNodes = res.data;
 					zTreeObjBatch = $.fn.zTree.init($("#treeBatch"), settingBatch, zTreeNodesBatch);
@@ -150,7 +153,7 @@ $(function() {
 			},
 			save: function() {
 				var _this = this;
-				if (!_this.role4Add.name || !_this.role4Add.desc) {
+				if (!_this.role4Add.jsmc || !_this.role4Add.jsms) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
@@ -163,7 +166,7 @@ $(function() {
 					axios.post(url, _this.role4Add).then(function(res) {
 						if (res.data.code == 0) {
 							_this.list(1);
-							_this.role4Add = {id: 0, name: "", desc: "", permissions: []};
+							_this.role4Add = {id: "", jsmc: "", jsms: "", cjsj: "", isdel: "", permissions: []};
 							myzui._success(res.data.msg);
 							_this.isEditShow = false;
 						} else {
@@ -173,7 +176,7 @@ $(function() {
 				} else { //update
 					axios.put(url, _this.role4Add).then(function(res) {
 						_this.list(1);
-						_this.role4Add = {id: 0, name: "", desc: "", permissions: []};
+						_this.role4Add = {id: "", jsmc: "", jsms: "", cjsj: "", isdel: "", permissions: []};
 						myzui._success(res.data);
 						_this.isEditShow = false;
 					});
@@ -185,16 +188,19 @@ $(function() {
 			addEdit: function() {
 				this.isEditShow = true;
 				this.editTitle = "新增";
-				this.role4Add = {id: 0, name: "", desc: "", permissions: []};
+				this.role4Add = {id: "", jsmc: "", jsms: "", cjsj: "", isdel: "", permissions: []};
 				zTreeObj.checkAllNodes(false);
 			},
 			updateEdit: function(role) {
+				console.log(role);
 				var _this = this;
 				this.isEditShow = true;
 				this.editTitle = "修改";
 				this.role4Add.id = role.id;
-				this.role4Add.name = role.name;
-				this.role4Add.desc = role.desc;
+				this.role4Add.jsmc = role.jsmc;
+				this.role4Add.jsms = role.jsms;
+				this.role4Add.cjsj = role.cjsj;
+				this.role4Add.isdel = role.isdel;
 				zTreeObj.checkAllNodes(false);
 				role.permissions.map(function(item) {
 					zTreeObj.checkNode(zTreeObj.getNodeByParam("id", item.id, null), true, false);
@@ -213,14 +219,14 @@ $(function() {
 			add: function() {
 				var _this = this;
 				var url = "roles";
-				if (!this.role4Add.name || !this.role4Add.desc) {
+				if (!this.role4Add.jsmc || !this.role4Add.jsms) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
 				axios.post(url, this.role4Add).then(function(res) {
 					if (res.data.code == 0) {
 						_this.list(1);
-						_this.role4Add = {id: 0, name: "", desc: ""};
+						_this.role4Add = {id: "", jsmc: "", jsms: "", cjsj: "", isdel: "", permissions: []};
 						myzui._success(res.data.msg);
 					} else {
 						myzui._error(res.data.msg);

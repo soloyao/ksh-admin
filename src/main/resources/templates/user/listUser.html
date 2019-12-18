@@ -5,12 +5,28 @@
 	<script src="./static/js/common/component-pager.js"></script>
 	<link href="./static/css/bootstrapStyle/bootstrapStyle.css" rel="stylesheet" />
 	<script src="./static/js/common/jquery.ztree.all.js"></script>
+	<script src="./static/js/common/inputTree.js"></script>
 	<link href="./static/css/user/user.css" rel="stylesheet" />
 	<script src="./static/js/user/user.js"></script>
 </head>
 <body>
 	<div id="app">
-		<div class="col-md-10 content table-content load-indicator" :class="isLoading?'loading':''" data-loading="正在加载">
+		<div class="col-md-3 content">
+			<div class="panel">
+				<div class="panel-heading" style="height:49px;line-height:32px;">
+					<i class="icon icon-sitemap"></i>
+					<span>组织机构</span>
+					<i class="icon icon-eraser" data-toggle="tooltip" data-placement="bottom" title="清除选择" @click="cancelTreeZzjg"></i>
+				</div>
+				<div class="panel-body" style="height:calc(100% - 49px);">
+					<!-- ztree zzjg start -->
+					<ul id="treeZzjg" class="ztree" style="width:100%;"></ul>
+					<!-- ztree zzjg end -->
+				</div>
+			</div>
+		</div>
+	
+		<div class="col-md-7 content table-content load-indicator" :class="isLoading?'loading':''" data-loading="正在加载">
 			<div class="panel">
 				<div class="panel-heading">
 					<!-- top start -->
@@ -19,10 +35,9 @@
 						<div class="input-group search-div">
 							<input type="text" class="form-control" id="keyword" placeholder="请输入关键词">
 							<span class="input-group-btn">
-								<button class="btn btn-primary" @click="search">搜索</button>
-								<button class="btn btn-default" @click="reset">重置</button>
-								<button class="btn btn-success" @click="addEdit">新增</button>
-								<button class="btn btn-danger" @click="getCheck">获取选中行</button>
+								<button class="btn btn-primary" @click="search"><i class="icon icon-search"></i>搜索</button>
+								<button class="btn btn-default" @click="reset"><i class="icon icon-refresh"></i>重置</button>
+								<button class="btn btn-success" @click="addEdit"><i class="icon icon-plus"></i>新增</button>
 							</span>
 						</div>
 						<!-- search end -->
@@ -34,35 +49,38 @@
 					<div style="height:38px;">
 						 <table class="table table-hover table-striped" style="margin:0px;">
 						 	<thead>
-						 		<th><div @click="checkboxAll" class="checkbox-primary checkbox-parent" style="width:16px;"><label></label></div></th>
-						 		<th width="76">编号</th>
-								<th width="190">用户名</th>
-								<th width="282">姓名</th>
-								<th width="305">电话</th>
-								<th width="178">性别</th>
-								<th width="407">关联角色</th>
-								<th width="230">操作</th>
+						 		<th width="47"><div @click="checkboxAll" class="checkbox-primary checkbox-parent" style="width:16px;"><label></label></div></th>
+								<th width="100">用户名</th>
+								<th width="200">姓名</th>
+								<!-- <th width="228">手机号码</th>
+								<th width="137">性别</th> -->
+								<th width="240">单位</th>
+								<th width="123">关联角色</th>
+								<th width="">操作</th>
 						 	</thead>
 						 </table>
 					</div>
-					<div style="height:calc(100% - 38px);overflow:auto;">
+					<div v-if="users && users.length > 0" style="height:calc(100% - 38px);overflow:auto;">
 						<table class="table table-hover table-striped">
 							<tbody>
 								<tr v-for="user in users">
-									<td><div @click="checkbox" class="checkbox-primary checkbox-children" style="width:16px;" :data-id="user.id"><label></label></div></td>
-									<td width="76">{{user.id}}</td>
-									<td width="190">{{user.name}}</td>
-									<td width="282">{{user.realname}}</td>
-									<td width="305">{{user.phone}}</td>
-									<td width="178">{{user.sex}}</td>
-									<td width="407"><template v-for="role in user.roles">{{role.name}}</template></td>
-									<td width="230">
+									<td width="47"><div @click="checkbox" class="checkbox-primary checkbox-children" style="width:16px;" :data-id="user.id"><label></label></div></td>
+									<td width="100">{{user.yhzh}}</td>
+									<td width="200">{{user.yhxm}}</td>
+									<!-- <td width="228">{{user.sjhm}}</td>
+									<td width="137">{{user.yhxb}}</td> -->
+									<td width="240">{{user.zzjgmc}}</td>
+									<td width="123"><template v-for="role in user.roles">{{role.jsmc}}</template></td>
+									<td width="">
 										<button class="btn btn-xs btn-primary" @click="updateEdit(user)"><i class="icon icon-pencil"></i></button>
 										<button class="btn btn-xs btn-danger" @click="deleteUser(user.id)"><i class="icon icon-trash"></i></button>
 									</td>
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div v-if="users && users.length == 0" style="height:calc(100% - 38px);overflow:auto;">
+						<div style="color:#999;padding:15px;line-height:100px;">暂无数据</div>
 					</div>
 					<!-- table end -->
 				</div>
@@ -77,10 +95,9 @@
 		<div class="col-md-2 content">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
-					<button class="btn btn-success" @click="saveBatch">批量分配角色</button>
+					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配角色</button>
 				</div>
-				<div class="panel-body">
-					<span>关联角色</span>
+				<div class="panel-body" style="height:calc(100% - 49px);">
 					<!-- ztree batch start -->
 					<ul id="treeBatch" class="ztree"></ul>
 					<!-- ztree batch end -->
@@ -96,43 +113,66 @@
 			</div>
 			<div class="edit-panel-div-content form-horizontal">
 				<div class="form-group">
-					<label for="name" class="col-sm-3 required">名称</label>
+					<label for="name" class="col-sm-3 required">用户名</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="user4Add.name" id="name" placeholder="名称" />
+						<input class="form-control" v-model="user4Add.yhzh" id="yhzh" placeholder="用户名" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="password" class="col-sm-3 required">密码</label>
+					<label for="password" class="col-sm-3 required">用户密码</label>
 					<div class="col-sm-9">
-						<input type="password" class="form-control" v-model="user4Add.password" id="password" placeholder="密码" />
+						<input type="password" class="form-control" v-model="user4Add.yhmm" id="yhmm" placeholder="用户密码" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="realname" class="col-sm-3 required">实名</label>
+					<label for="realname" class="col-sm-3 required">用户姓名</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="user4Add.realname" id="realname" placeholder="实名" />
+						<input class="form-control" v-model="user4Add.yhxm" id="yhxm" placeholder="用户姓名" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="phone" class="col-sm-3 required">电话</label>
+					<label for="phone" class="col-sm-3">警员编号</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="user4Add.phone" id="phone" placeholder="电话" />
+						<input class="form-control" v-model="user4Add.jybh" id="jybh" placeholder="警员编号" />
 					</div>
 				</div>
 				<div class="form-group">
-					<label for="sex" class="col-sm-3 required">性别</label>
+					<label for="sex" class="col-sm-3">警员类型</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="user4Add.sex" id="sex" placeholder="性别" />
+						<input class="form-control" v-model="user4Add.jylx" id="jylx" placeholder="警员类型" />
 					</div>
 				</div>
-				<span>关联角色</span>
+				<div class="form-group">
+					<label for="sex" class="col-sm-3">职务</label>
+					<div class="col-sm-9">
+						<input class="form-control" v-model="user4Add.zw" id="zw" placeholder="职务" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="sex" class="col-sm-3">用户性别</label>
+					<div class="col-sm-9">
+						<input class="form-control" v-model="user4Add.yhxb" id="yhxb" placeholder="用户性别" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="sex" class="col-sm-3">手机号码</label>
+					<div class="col-sm-9">
+						<input class="form-control" v-model="user4Add.sjhm" id="sjhm" placeholder="手机号码" />
+					</div>
+				</div>
+				<div class="form-group">
+					<label for="sex" class="col-sm-3 required">单位</label>
+					<div class="col-sm-9">
+						<input class="form-control" v-model="user4Add.zzjgmc" id="zzjgmc" placeholder="单位" />
+					</div>
+				</div>
 				<!-- ztree start -->
 				<ul id="tree" class="ztree"></ul>
 				<!-- ztree end -->
 			</div>
 			<div class="edit-panel-div-footer">
-				<button class="btn btn-success" @click="save">保存</button>
-				<button class="btn btn-default" @click="cancel">取消</button>
+				<button class="btn btn-success" @click="save"><i class="icon icon-check"></i>保存</button>
+				<button class="btn btn-default" @click="cancel"><i class="icon icon-times"></i>取消</button>
 			</div>
 		</div>
 		<div class="edit-panel-div-shim" @click="cancel" :class="isEditShow?'active':''"></div>

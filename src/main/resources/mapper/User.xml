@@ -4,70 +4,86 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
     <mapper namespace="com.hnkc.mapper.UserMapper">
+    	<select id="listPcsTree" resultType="PcsTree">
+    		select id,pid,name from (
+			select fullname as name,id,'' as pid from t_zzjg_gd where id = '440000000000'
+			union
+			select fullname as name,id,parentid as pid from t_zzjg_gd where (name like '%局' or name like '%派出所') and id not like '__0000______'
+			) order by id asc
+    	</select>
+    
     	<select id="login" resultType="User">
-    		select * from user where name = #{name} and password = #{password}
+    		select * from t_sys_yh where yhzh = #{yhzh} and yhmm = #{yhmm} and isdel = '0'
     	</select>
     	
     	<select id="exist" resultType="int">
-    		select count(*) from user where name = #{name}
+    		select count(*) from t_sys_yh where yhzh = #{yhzh} and isel = '0'
     	</select>
     	
     	<resultMap type="User" id="userBean">
     		<id column="id" property="id"/>
-    		<result column="name" property="name"/>
-    		<result column="password" property="password"/>
-    		<result column="phone" property="phone"/>
-    		<result column="realname" property="realname"/>
-    		<result column="sex" property="sex"/>
+    		<result column="yhzh" property="yhzh"/>
+    		<result column="yhmm" property="yhmm"/>
+    		<result column="yhxm" property="yhxm"/>
+    		<result column="jybh" property="jybh"/>
+    		<result column="jylx" property="jylx"/>
+    		<result column="zw" property="zw"/>
+    		<result column="yhxb" property="yhxb"/>
+    		<result column="sjhm" property="sjhm"/>
+    		<result column="cjsj" property="cjsj"/>
+			<result column="isdel" property="isdel"/>
+			<result column="zzjgdm" property="zzjgdm"/>
+			<result column="zzjgmc" property="zzjgmc"/>
+			<result column="qydm" property="qydm"/>	
     		
     		<collection property="roles" ofType="Role"
     		javaType="java.util.List" select="getRoleByUserId" column="id">
     			<id column="id" property="id"/>
-    			<result column="name" property="name"/>
-    			<result column="desc" property="desc"/>
+    			<result column="jsmc" property="jsmc"/>
+    			<result column="jsms" property="jsms"/>
+    			<result column="cjsj" property="cjsj"/>
+    			<result column="isdel" property="isdel"/>
     		</collection>
     	</resultMap>
     	
     	<select id="getRoleByUserId" resultType="Role">
-    		select r.id,r.name,r.desc_ 'desc' from role r 
-    		left join user_role ur on r.id = ur.rid where ur.uid = #{uid}
+    		select r.* from t_sys_js r
+    		left join t_sys_yhjsgx ur on r.id = ur.jszj where ur.yhzj = #{yhzh} and r.isdel = '0' and ur.isdel = '0'
     	</select>
     	
     	<select id="list" resultMap="userBean">
-    		select * from user
+    		select * from t_sys_yh where isdel = '0'
     		<if test="keyword != null">
-    			where name like concat('%', #{keyword}, '%')
+    			and yhzh like #{keyword}
+    		</if>
+    		<if test="zzjgdm != null">
+    			and zzjgdm = #{zzjgdm}
     		</if>
     	</select>
-    	
-    	<!-- <select id="list" resultType="User">
-    		select * from user
-    		<if test="keyword != null">
-    			where name like concat('%', #{keyword}, '%') or realname like concat('%', #{keyword}, '%')
-    		</if>
-    	</select> -->
     	
     	<select id="get" resultMap="userBean">
-    		select * from user where id = #{id}
+    		select * from t_sys_yh where id = #{id} and isdel = '0'
     	</select>
     	
-    	<delete id="delete">
-    		delete from user where id = #{id}
-    	</delete>
+    	<update id="delete">
+    		update t_sys_yh set isdel = '1' where id = #{id}
+    	</update>
     	
-    	<delete id="deleteRoleByUserId">
-    		delete from user_role where uid = #{id}
-    	</delete>
+    	<update id="deleteRoleByUserId">
+    		update t_sys_yhjsgx set isdel = '1' where yhzj = #{yhzj}
+    	</update>
     	
     	<insert id="addRoleByUserId">
-    		insert into user_role(uid,rid) values(#{uid},#{rid})
+    		insert into t_sys_yhjsgx(yhzj, jszj) values(#{yhzj}, #{jszj})
     	</insert>
     	
     	<update id="update">
-    		update user set name = #{name}, password = #{password}, realname = #{realname}, phone = #{phone}, sex = #{sex} where id = #{id}
+    		update t_sys_yh set yhzh = #{yhzh}, yhmm = #{yhmm}, yhxm = #{yhxm}, jybh = #{jybh}, jylx = #{jylx}, zw = #{zw}, yhxb = #{yhxb},
+    		sjhm = #{sjhm}, zzjgdm = #{zzjgdm}, zzjgmc = #{zzjgmc}, qydm = #{qydm} where id = #{id}
     	</update>
     	
     	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-    		insert into user(name, password, realname, phone, sex) values(#{name}, #{password}, #{realname}, #{phone}, #{sex})
+    		insert into t_sys_yh(yhzh,yhmm,yhxm,jybh,jylx,zw,yhxb,sjhm,zzjgdm,zzjgmc,qydm)
+    		values(#{yhzh},#{yhmm},#{jybh},#{jylx},#{zw},#{yhxb},#{sjhm},#{zzjgdm},#{zzjgmc},#{qydm})
     	</insert>
     </mapper>

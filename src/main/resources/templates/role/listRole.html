@@ -19,10 +19,9 @@
 						<div class="input-group search-div">
 							<input type="text" class="form-control" id="keyword" placeholder="请输入关键词">
 							<span class="input-group-btn">
-								<button class="btn btn-primary" @click="search">搜索</button>
-								<button class="btn btn-default" @click="reset">重置</button>
-								<button class="btn btn-success" @click="addEdit">新增</button>
-								<button class="btn btn-danger" @click="getCheck">获取选中行</button>
+								<button class="btn btn-primary" @click="search"><i class="icon icon-search"></i>搜索</button>
+								<button class="btn btn-default" @click="reset"><i class="icon icon-refresh"></i>重置</button>
+								<button class="btn btn-success" @click="addEdit"><i class="icon icon-plus"></i>新增</button>
 							</span>
 						</div>
 						<!-- search end -->
@@ -34,11 +33,10 @@
 					<div style="height:38px;">
 						<table class="table table-hover table-striped" style="margin:0px;">
 							<thead>
-								<th><div @click="checkboxAll" class="checkbox-primary checkbox-parent" style="width:16px;"><label></label></div></th>
-								<th width="56">编号</th>
-								<th width="301">名称</th>
-								<th width="301">描述</th>
-								<th width="840">关联权限</th>
+								<th width="47"><div @click="checkboxAll" class="checkbox-primary checkbox-parent" style="width:16px;"><label></label></div></th>
+								<th width="501">名称</th>
+								<th width="501">描述</th>
+								<!-- <th width="840">关联权限</th> -->
 								<th width="170">操作</th>
 							</thead>
 						</table>
@@ -47,11 +45,10 @@
 						<table class="table table-hover table-striped">
 							<tbody>
 								<tr v-for="role in roles">
-									<td><div @click="checkbox" class="checkbox-primary checkbox-children" style="width:16px;" :data-id="role.id"><label></label></div></td>
-									<td width="56">{{role.id}}</td>
-									<td width="301">{{role.name}}</td>
-									<td width="301">{{role.desc}}</td>
-									<td width="840"><template v-for="permission in role.permissions">{{permission.name}},</template></td>
+									<td width="47"><div @click="checkbox" class="checkbox-primary checkbox-children" style="width:16px;" :data-id="role.id"><label></label></div></td>
+									<td width="501">{{role.jsmc}}</td>
+									<td width="501">{{role.jsms}}</td>
+									<!-- <td width="840"><template v-for="permission in role.permissions">{{permission.cdmc}},</template></td> -->
 									<td width="170">
 										<button class="btn btn-xs btn-primary" @click="updateEdit(role)"><i class="icon icon-pencil"></i></button>
 										<button class="btn btn-xs btn-danger" @click="deleteRole(role.id)"><i class="icon icon-trash"></i></button>
@@ -73,9 +70,9 @@
 		<div class="col-md-2 content">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
-					<button class="btn btn-success" @click="saveBatch">批量分配权限</button>
+					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配权限</button>
 				</div>
-				<div class="panel-body">
+				<div class="panel-body" style="height:calc(100% - 49px);">
 					<span>关联权限</span>
 					<!-- ztree batch start -->
 					<ul id="treeBatch" class="ztree"></ul>
@@ -94,13 +91,13 @@
 				<div class="form-group">
 					<label for="name" class="col-sm-3 required">名称</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="role4Add.name" id="name" placeholder="名称" />
+						<input class="form-control" v-model="role4Add.jsmc" id="jsmc" placeholder="名称" />
 					</div>
 				</div>
 				<div class="form-group">
 					<label for="desc" class="col-sm-3 required">描述</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="role4Add.desc" id="desc" placeholder="描述" />
+						<input class="form-control" v-model="role4Add.jsms" id="jsms" placeholder="描述" />
 					</div>
 				</div>
 				
@@ -110,8 +107,8 @@
 				<!-- ztree end -->
 			</div>
 			<div class="edit-panel-div-footer">
-				<button class="btn btn-success" @click="save">保存</button>
-				<button class="btn btn-default" @click="cancel">取消</button>
+				<button class="btn btn-success" @click="save"><i class="icon icon-check"></i>保存</button>
+				<button class="btn btn-default" @click="cancel"><i class="icon icon-times"></i>取消</button>
 			</div>
 		</div>
 		<div class="edit-panel-div-shim" @click="cancel" :class="isEditShow?'active':''"></div>

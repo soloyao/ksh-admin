@@ -4,8 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,13 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hnkc.annotation.LogAnnotation;
 import com.hnkc.pojo.Permission;
-import com.hnkc.pojo.User;
 import com.hnkc.service.PermissionService;
 
 import springfox.documentation.annotations.ApiIgnore;
@@ -33,13 +29,6 @@ import springfox.documentation.annotations.ApiIgnore;
 public class PermissionController {
 	@Autowired PermissionService permissionService;
 	JSONObject json = new JSONObject();
-	
-	@GetMapping("/permissionsByUser")
-	@LogAnnotation(desc = "根据用户获取对应菜单")
-	public JSONArray getPermissionsByUser(HttpSession session) {
-		User user = (User) session.getAttribute("user");
-		return permissionService.listByUser(user);
-	}
 	
 	@GetMapping("/parentPermissions")
 	@LogAnnotation(desc = "获取所有的父菜单")
@@ -52,12 +41,12 @@ public class PermissionController {
 	public PageInfo<Permission> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
-			@RequestParam(value = "pid") String pid) {
+			@RequestParam(value = "flzj") String flzj) {
 		PageHelper.startPage(start, size, "id desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
-		paramMap.put("pid", pid);
+		paramMap.put("flzj", flzj);
 		if (!StringUtils.isEmpty(keyword)) {
-			paramMap.put("keyword", keyword);
+			paramMap.put("keyword", "%" + keyword + "%");
 		}
 		List<Permission> rs = permissionService.list(paramMap);
 		PageInfo<Permission> page = new PageInfo<Permission>(rs, 5);
@@ -66,7 +55,7 @@ public class PermissionController {
 	
 	@GetMapping("/permissions/{id}")
 	@LogAnnotation(desc = "获取单个菜单")
-	public Permission get(@PathVariable("id") int id) {
+	public Permission get(@PathVariable("id") String id) {
 		Permission permission = permissionService.get(id);
 		return permission;
 	}
@@ -90,13 +79,13 @@ public class PermissionController {
 	@LogAnnotation(desc = "修改菜单")
 	public String update(@RequestBody Permission permission) {
 		permissionService.update(permission);
-		return "success";
+		return "修改成功";
 	}
 	
 	@DeleteMapping("/permissions/{id}")
 	@LogAnnotation(desc = "删除菜单")
-	public String delete(@PathVariable("id") int id) {
+	public String delete(@PathVariable("id") String id) {
 		permissionService.delete(id);
-		return "success";
+		return "删除成功";
 	}
 }

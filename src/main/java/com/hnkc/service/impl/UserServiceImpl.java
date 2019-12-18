@@ -7,10 +7,11 @@ import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.hnkc.mapper.UserMapper;
+import com.hnkc.pojo.PcsTree;
 import com.hnkc.pojo.Role;
 import com.hnkc.pojo.User;
 import com.hnkc.pojo.UserRole;
+import com.hnkc.mapper.UserMapper;
 import com.hnkc.service.UserService;
 
 
@@ -39,8 +40,8 @@ public class UserServiceImpl implements UserService {
 		if (null != user.getRoles()) {
 			for (Role role : user.getRoles()) {
 				UserRole userRole = new UserRole();
-				userRole.setRid(role.getId());
-				userRole.setUid(user.getId());
+				userRole.setJszj(role.getId());
+				userRole.setYhzj(user.getId());
 				userMapper.addRoleByUserId(userRole);
 			}
 		}
@@ -54,8 +55,8 @@ public class UserServiceImpl implements UserService {
 		if (null != user.getRoles()) {
 			for (Role role : user.getRoles()) {
 				UserRole userRole = new UserRole();
-				userRole.setRid(role.getId());
-				userRole.setUid(user.getId());
+				userRole.setJszj(role.getId());
+				userRole.setYhzj(user.getId());
 				userMapper.addRoleByUserId(userRole);
 			}
 		}
@@ -67,15 +68,15 @@ public class UserServiceImpl implements UserService {
 	public void updateBatch(Set<String> userIds, Set<String> roleIds) {
 		//删除当前用户关联角色
 		for (String userId : userIds) {
-			userMapper.deleteRoleByUserId(Integer.parseInt(userId));
+			userMapper.deleteRoleByUserId(userId);
 		}
 		//修改用户关联角色
 		if (null != roleIds) {//为空则表示去掉用户所有角色
 			for (String userId : userIds) {
 				for (String roleId : roleIds) {
 					UserRole userRole = new UserRole();
-					userRole.setRid(Integer.parseInt(roleId));
-					userRole.setUid(Integer.parseInt(userId));
+					userRole.setJszj(roleId);
+					userRole.setYhzj(userId);
 					userMapper.addRoleByUserId(userRole);
 				}
 			}
@@ -83,14 +84,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(String id) {
 		userMapper.delete(id);//删除用户
 		userMapper.deleteRoleByUserId(id);//同时删除用户对应的角色
 	}
 
 	@Override
-	public User get(int id) {
+	public User get(String id) {
 		return userMapper.get(id);
+	}
+
+	@Override
+	public List<PcsTree> listPcsTree() {
+		return userMapper.listPcsTree();
 	}
 
 }

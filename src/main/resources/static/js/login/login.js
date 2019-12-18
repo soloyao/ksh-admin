@@ -1,6 +1,6 @@
 $(function() {
 	var data4Vue = {
-		user4Login: {name: "", password: ""}
+		user4Login: {yhzh: "", yhmm: ""}
 	};
 	
 	var vue = new Vue({
@@ -18,7 +18,7 @@ $(function() {
 			login: function() {
 				var _this = this;
 				var url = "login";
-				if (!_this.user4Login.name || !_this.user4Login.password) {
+				if (!_this.user4Login.yhzh || !_this.user4Login.yhmm) {
 					myzui._error1("用户名或密码不能为空");
 					return;
 				}

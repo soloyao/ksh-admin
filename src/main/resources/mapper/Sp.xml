@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+    <mapper namespace="com.hnkc.mapper.SpMapper">
+    	<select id="list" resultType="Sp">
+    		select * from t_layer_sp where isdel = '0'
+    		<if test="keyword != null">
+    			and mc like #{keyword}
+    		</if>
+    		<if test="zzjgdm != null">
+    			and zzjgdm = #{zzjgdm}
+    		</if>
+    	</select>
+    	<select id="get" resultType="Sp">
+    		select * from t_layer_sp where tid = #{tid} and isdel = '0'
+    	</select>
+    	<update id="update">
+    		update t_layer_sp set mc = #{mc}, dz = #{dz}, bh = #{bh},
+    		x = #{x}, y = #{y}, lx = #{lx}, shape = #{shape},createtime = sysdate,
+    		zzjgdm =  #{zzjgdm}, zzjgmc = #{zzjgmc}, qydm = #{qydm} where tid = #{tid}
+    	</update>
+    	<delete id="delete">
+    		update t_layer_sp set isdel = '1' where tid = #{tid}
+    	</delete>
+    	<insert id="add">
+    		insert into t_layer_sp(tid,mc,dz,bh,x,y,lx,shape,createtime,isdel,zzjgdm,zzjgmc,qydm)
+    		values(sys_guid(),#{mc},#{dz},#{bh},#{x},#{y},#{lx},#{shape},sysdate,'0',#{zzjgdm},#{zzjgmc},#{qydm})
+    	</insert>
+    </mapper>

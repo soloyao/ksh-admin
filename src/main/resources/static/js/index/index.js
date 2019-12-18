@@ -3,6 +3,15 @@ $(function() {
 	
 	var icon = ["icon-dashboard", "icon-book", "icon-cogs", "icon-tasks", "icon-th", "icon-envelope", "icon-user"]
 	
+	var permissionData = 
+		[{"children":[{"name":"视频维护","id":64,"url":"listSp"},
+			{"name":"网吧维护","id":65,"url":"listWb"},
+			{"name":"卡口维护","id":66,"url":"listKk"},
+			{"name":"加油站维护","id":67,"url":"listJyz"},
+			{"name":"医院维护","id":68,"url":"listYy"},
+			{"name":"旅店维护","id":69,"url":"listLd"},],"name":"地图管理","id":63,"url":""},
+		{"children":[{"name":"角色管理","id":2,"url":"listRole"},{"name":"权限管理","id":3,"url":"listPermission"},{"name":"用户管理","id":62,"url":"listUser"}],"name":"系统管理","id":31,"url":""}];
+	
 	var data = {
 		active: null, //用来确认当前展示的功能页面
 		childrens: [], //所有子菜单
@@ -37,20 +46,16 @@ $(function() {
 			},
 			initNav: function() {
 				var _this = this;
-				var url ="permissionsByUser";
-				axios.get(url).then(function(res) {
-					var data = res.data;
-					_this.items = data;
-					var i = 0;
-					_this.items.map(function(item) {
-						item.icon = icon[i++];
-						/*item.children.map(function(it) {
-							it.icon = icon[i++];
-						});*/
-					});
-//					_this.childrens.push(_this.items[0].children[0]);
-//					_this.active = _this.items[0].children[0];
-				});
+				_this.items = permissionData;
+//				var url ="permissionsByUser";
+//				axios.get(url).then(function(res) {
+//					var data = res.data;
+//					_this.items = data;
+//					var i = 0;
+//					_this.items.map(function(item) {
+//						item.icon = icon[i++];
+//					});
+//				});
 			},
 			toggleNav: function() {
 				this.showNav = this.showNav == "block" ? "none" : "block";

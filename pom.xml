@@ -106,6 +106,12 @@
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>1.1.1</version>
         </dependency>
+        <!-- oracle -->
+        <dependency>
+			<groupId>com.oracle</groupId>
+			<artifactId>ojdbc7</artifactId>
+			<version>12.1.0.2</version>
+		</dependency>
         <!-- mysql -->
         <dependency>
             <groupId>mysql</groupId>

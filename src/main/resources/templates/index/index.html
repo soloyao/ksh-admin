@@ -11,9 +11,8 @@
 		<div class="center">
 			<div id="navigation" aria-multiselectable="true" class="panel-group" :style="{left:showNav=='none'?'-180px':'0px'}">
 				<div style="text-align:center;margin:15px 0;">
-					<!-- <img src="./static/image/logo.png" alt="system" style="width:50px;"> -->
 					<i class="icon icon-cubes icon-2x" style="color:white;"></i>
-					<span style="font-size:22px;color:white;">one system</span>
+					<span style="font-size:22px;color:white;">可视化管理</span>
 				</div>
 				<div class="panel panel-default" v-for="(item, index) in items">
 					<div class="panel panel-heading">
@@ -27,11 +26,9 @@
 						<div class="panel-body">
 							<ul class="list-unstyled text-center">
 								<template v-for="(children, ind) in item.children" v-if="children">
-									<!-- <li :class="index == 0 && ind ==0 ? 'children' : ''" @click="childrenClick($event, children)"> -->
 									<li :class="{children:children==active}" @click="childrenClick($event, children)">
-										<!-- <a href="javascript:void(0)" :class="index == 0 && ind ==0 ? 'bg' : ''">{{children.name}}</a> -->
 										<a href="javascript:void(0)">
-											<span><!-- <i class="icon" :class="children.icon"></i> -->{{children.name}}</span>
+											<span>{{children.name}}</span>
 										</a>
 									</li>
 								</template>
