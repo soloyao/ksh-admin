@@ -82,8 +82,8 @@
     		sjhm = #{sjhm}, zzjgdm = #{zzjgdm}, zzjgmc = #{zzjgmc}, qydm = #{qydm} where id = #{id}
     	</update>
     	
-    	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-    		insert into t_sys_yh(yhzh,yhmm,yhxm,jybh,jylx,zw,yhxb,sjhm,zzjgdm,zzjgmc,qydm,cjsj)
-    		values(#{yhzh},#{yhmm},#{yhxm},#{jybh},#{jylx},#{zw},#{yhxb},#{sjhm},#{zzjgdm},#{zzjgmc},#{qydm},sysdate)
+    	<insert id="add">
+    		insert into t_sys_yh(id,yhzh,yhmm,yhxm,jybh,jylx,zw,yhxb,sjhm,zzjgdm,zzjgmc,qydm,cjsj)
+    		values(#{id},#{yhzh},#{yhmm},#{yhxm},#{jybh},#{jylx},#{zw},#{yhxb},#{sjhm},#{zzjgdm},#{zzjgmc},#{qydm},sysdate)
     	</insert>
     </mapper>

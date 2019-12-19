@@ -25,6 +25,7 @@ import com.hnkc.pojo.Permission;
 import com.hnkc.pojo.Role;
 import com.hnkc.service.PermissionService;
 import com.hnkc.service.RoleService;
+import com.hnkc.util.StringUtil;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -91,6 +92,7 @@ public class RoleController {
 			json.put("code", 1);
 			json.put("msg", "角色名已存在");
 		} else {
+			role.setId(StringUtil.getGUID());
 			roleService.add(role);
 			json.put("code", 0);
 			json.put("msg", "新增成功");

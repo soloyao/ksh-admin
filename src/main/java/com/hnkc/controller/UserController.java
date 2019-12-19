@@ -30,6 +30,7 @@ import com.hnkc.pojo.User;
 import com.hnkc.service.RoleService;
 import com.hnkc.service.UserService;
 import com.hnkc.util.MD5;
+import com.hnkc.util.StringUtil;
 
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -137,6 +138,7 @@ public class UserController {
 			json.put("code", 1);
 			json.put("msg", "用户名已存在");
 		} else {
+			user.setId(StringUtil.getGUID());
 			user.setQydm(user.getZzjgdm().substring(0, 4));
 			userService.add(user);
 			json.put("code", 0);

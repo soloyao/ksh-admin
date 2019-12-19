@@ -2,6 +2,8 @@ package com.hnkc.pojo;
 
 import java.util.List;
 
+import com.hnkc.util.StringUtil;
+
 public class User {
 	private String id = "";
 	private String yhzh = "";

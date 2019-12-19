@@ -40,8 +40,8 @@
     		order by cjsj desc
     	</select>
     	
-    	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-    		insert into role(name, desc_) values(#{name}, #{desc})
+    	<insert id="add">
+    		insert into t_sys_js(id, jsmc, jsms) values(#{id}, #{jsmc}, #{jsms})
     	</insert>
     	<update id="delete">
     		update t_sys_js set isdel = '1' where id = #{id}
