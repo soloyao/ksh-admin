@@ -40,10 +40,10 @@ public class RoleController {
 	public PageInfo<Role> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
-		PageHelper.startPage(start, size, "id desc");
+		PageHelper.startPage(start, size, "cjsj desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if (!StringUtils.isEmpty(keyword)) {
-			paramMap.put("keyword", keyword);
+			paramMap.put("keyword", "%" + keyword + "%");
 		}
 		List<Role> rs = roleService.list(paramMap);
 		PageInfo<Role> page = new PageInfo<Role>(rs, 5);

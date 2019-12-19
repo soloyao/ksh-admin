@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="app">
-		<div class="col-md-3 content">
+		<div class="col-md-2 content">
 			<div class="panel">
 				<div class="panel-heading" style="height:49px;line-height:32px;">
 					<i class="icon icon-sitemap"></i>
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	
-		<div class="col-md-7 content table-content load-indicator" :class="isLoading?'loading':''" data-loading="正在加载">
+		<div class="col-md-8 content table-content load-indicator" :class="isLoading?'loading':''" data-loading="正在加载">
 			<div class="panel">
 				<div class="panel-heading">
 					<!-- top start -->
@@ -54,9 +54,9 @@
 								<th width="200">姓名</th>
 								<!-- <th width="228">手机号码</th>
 								<th width="137">性别</th> -->
-								<th width="240">单位</th>
+								<th width="340">单位</th>
 								<th width="123">关联角色</th>
-								<th width="">操作</th>
+								<th width="123">操作</th>
 						 	</thead>
 						 </table>
 					</div>
@@ -69,9 +69,9 @@
 									<td width="200">{{user.yhxm}}</td>
 									<!-- <td width="228">{{user.sjhm}}</td>
 									<td width="137">{{user.yhxb}}</td> -->
-									<td width="240">{{user.zzjgmc}}</td>
+									<td width="340">{{user.zzjgmc}}</td>
 									<td width="123"><template v-for="role in user.roles">{{role.jsmc}}</template></td>
-									<td width="">
+									<td width="123">
 										<button class="btn btn-xs btn-primary" @click="updateEdit(user)"><i class="icon icon-pencil"></i></button>
 										<button class="btn btn-xs btn-danger" @click="deleteUser(user.id)"><i class="icon icon-trash"></i></button>
 									</td>
@@ -163,7 +163,7 @@
 				<div class="form-group">
 					<label for="sex" class="col-sm-3 required">单位</label>
 					<div class="col-sm-9">
-						<input class="form-control" v-model="user4Add.zzjgmc" id="zzjgmc" placeholder="单位" />
+						<input class="form-control" readonly id="zzjgmc" placeholder="单位" />
 					</div>
 				</div>
 				<!-- ztree start -->

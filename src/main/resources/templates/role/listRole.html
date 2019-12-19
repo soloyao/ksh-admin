@@ -41,7 +41,7 @@
 							</thead>
 						</table>
 					</div>
-					<div style="height:calc(100% - 38px);overflow:auto;">
+					<div v-if="roles && roles.length > 0" style="height:calc(100% - 38px);overflow:auto;">
 						<table class="table table-hover table-striped">
 							<tbody>
 								<tr v-for="role in roles">
@@ -56,6 +56,9 @@
 								</tr>
 							</tbody>
 						</table>
+					</div>
+					<div v-if="roles && roles.length == 0" style="height:calc(100% - 38px);overflow:auto;">
+						<div style="color:#999;padding:15px;line-height:100px;">暂无数据</div>
 					</div>
 					<!-- table end -->
 				</div>

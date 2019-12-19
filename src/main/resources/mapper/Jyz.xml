@@ -18,14 +18,14 @@
     	</select>
     	<update id="update">
     		update t_layer_jyz set mc = #{mc}, dz = #{dz},shape = #{shape},
-    		x = #{x}, y = #{y}, lx = #{lx}, lxdh = #{lxdh},fzr = #{fzr},createtime = sysdate,
+    		x = #{x}, y = #{y}, lx = #{lx}, lxdh = #{lxdh}, fzr = #{fzr}, cjsj = sysdate,
     		zzjgdm =  #{zzjgdm}, zzjgmc = #{zzjgmc}, qydm = #{qydm} where tid = #{tid}
     	</update>
     	<delete id="delete">
     		update t_layer_jyz set isdel = '1' where tid = #{tid}
     	</delete>
     	<insert id="add">
-    		insert into t_layer_jyz(tid,mc,dz,x,y,lx,lxdh,fzr,shape,createtime,isdel,zzjgdm,zzjgmc,qydm)
-    		values(sys_guid(),#{mc},#{dz},#{x},#{y},#{lx},#{lxdh},#{fzr},#{shape},sysdate,'0',#{zzjgdm},#{zzjgmc},#{qydm})
+    		insert into t_layer_jyz(tid,mc,dz,x,y,lx,lxdh,fzr,shape,zzjgdm,zzjgmc,qydm)
+    		values(sys_guid(),#{mc},#{dz},#{x},#{y},#{lx},#{lxdh},#{fzr},#{shape},#{zzjgdm},#{zzjgmc},#{qydm})
     	</insert>
     </mapper>

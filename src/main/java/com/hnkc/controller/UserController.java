@@ -81,7 +81,7 @@ public class UserController {
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "zzjgdm", defaultValue = "") String zzjgdm) {
-		PageHelper.startPage(start, size, "id desc");
+		PageHelper.startPage(start, size, "cjsj desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if (!StringUtils.isEmpty(keyword)) {
 			paramMap.put("keyword", "%" + keyword + "%");
@@ -137,6 +137,7 @@ public class UserController {
 			json.put("code", 1);
 			json.put("msg", "用户名已存在");
 		} else {
+			user.setQydm(user.getZzjgdm().substring(0, 4));
 			userService.add(user);
 			json.put("code", 0);
 			json.put("msg", "新增成功");
@@ -147,6 +148,7 @@ public class UserController {
 	@PutMapping("/users")
 	@LogAnnotation(desc = "修改用户")
 	public String update(@RequestBody User user) throws NoSuchAlgorithmException {
+		user.setQydm(user.getZzjgdm().substring(0, 4));
 		userService.update(user);
 		return "修改成功";
 	}

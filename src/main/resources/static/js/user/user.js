@@ -88,10 +88,21 @@ $(function() {
 		mounted: function() {
 			this.list(1);
 			this.listRoles();
-			this.listZzjgTree();
+			this.listPcsTree();
 			$("[data-toggle='tooltip']").tooltip();
 		},
 		methods: {
+			listPcsTree() {
+				var url = "listPcsTree";
+				axios.get(url).then(function(res) {
+					if (res.data.code == 0) {
+						zTreeNodesZzjg = res.data.data;
+						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
+						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
+						new $.tree("zzjgmc", res.data.data);
+					}
+				});
+			},
 			cancelTreeZzjg() {
 				if (!this.zzjgdm) return;
 				this.zzjgdm = "";
@@ -134,16 +145,6 @@ $(function() {
 					$(".checkbox-parent").removeClass("checked");
 				}
 			},
-			listZzjgTree() {
-				var url = "listPcsTree";
-				axios.get(url).then(function(res) {
-					if (res.data.code == 0) {
-						zTreeNodesZzjg = res.data.data;
-						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
-						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
-					}
-				});
-			},
 			listRoles: function() {
 				var _this = this;
 				var url = "listRoles"
@@ -185,7 +186,7 @@ $(function() {
 			},
 			save: function() {
 				var _this = this;
-				if (!this.user4Add.yhzh || !this.user4Add.yhmm || !this.user4Add.yhxm || !this.user4Add.zzjgdm || !this.user4Add.zzjgmc) {
+				if (!this.user4Add.yhzh || !this.user4Add.yhmm || !this.user4Add.yhxm || !$("#zzjgmc").data("id") || !$("#zzjgmc").val()) {
 					myzui._error("必填参数不能为空");
 					return;
 				}
@@ -194,6 +195,8 @@ $(function() {
 					return;
 				}
 				var url = "users";
+				_this.user4Add.zzjgdm = $("#zzjgmc").data("id");
+				_this.user4Add.zzjgmc = $("#zzjgmc").val();
 				_this.user4Add.roles = [];
 				zTreeObj.getCheckedNodes(true).map(function(item) {
 					_this.user4Add.roles.push({id: item.id});
@@ -224,6 +227,8 @@ $(function() {
 			addEdit: function() {
 				this.isEditShow = true;
 				this.editTitle = "新增";
+				$("#zzjgmc").data("id", "");
+				$("#zzjgmc").val("");
 				this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
 				zTreeObj.checkNode(zTreeObj.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
 			},
@@ -231,18 +236,18 @@ $(function() {
 				this.isEditShow = true;
 				this.editTitle = "修改";
 				this.user4Add.id = user.id;
-				this.user4Add.yhzh = user.yhzh?user.yhzh:"";
-				this.user4Add.yhmm = user.yhmm?user.yhmm:"";
-				this.user4Add.yhxm = user.yhxm?user.yhxm:"";
-				this.user4Add.jybh = user.jybh?user.jybh:"";
-				this.user4Add.jylx = user.jylx?user.jylx:"";
+				this.user4Add.yhzh = user.yhzh;
+				this.user4Add.yhmm = user.yhmm;
+				this.user4Add.yhxm = user.yhxm;
+				this.user4Add.jybh = user.jybh;
+				this.user4Add.jylx = user.jylx;
 				this.user4Add.zw = user.zw?user.zw:"";
-				this.user4Add.yhxb = user.yhxb?user.yhxb:"";
-				this.user4Add.sjhm = user.sjhm?user.sjhm:"";
-				this.user4Add.cjsj = user.cjsj?user.cjsj:"";
+				this.user4Add.yhxb = user.yhxb;
+				this.user4Add.sjhm = user.sjhm;
+				this.user4Add.cjsj = user.cjsj;
 				this.user4Add.isdel = user.isdel;
-				this.user4Add.zzjgdm = user.zzjgdm;
-				this.user4Add.zzjgmc = user.zzjgmc;
+				$("#zzjgmc").data("id", user.zzjgdm);
+				$("#zzjgmc").val(user.zzjgmc);
 				this.user4Add.qydm = user.qydm;
 				zTreeObj.checkNode(zTreeObj.getNodeByParam("id", user.roles.length > 0 ? user.roles[0].id : 0, null), true, false);
 			},
@@ -268,6 +273,7 @@ $(function() {
 				myzui.confirm("确认删除？", function() {
 					var url = "users/" + id;
 					axios.delete(url).then(function(res) {
+						myzui._success(res.data);
 						_this.list(1);
 					});
 				});

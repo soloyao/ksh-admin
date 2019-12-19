@@ -6,7 +6,26 @@ div.assign-div {
 	margin: 0px auto;
 	padding-left: 50px;
 }
-
+  .menuContent {
+    z-index: 99999999;
+    display: none;
+    position: absolute;
+  }
+  .menuContent ul.ztree {
+    width: 300px;
+    height: 360px;
+    border: 1px solid #617775;
+    /* background: #009f95; */
+    background:white;
+    overflow-y: scroll;
+    overflow-x: auto;
+    margin: 0;
+    padding: 5px;
+    color: #333;
+}
+.ztree li a{
+	/* color:white !important; */
+}
 .ztree {
 	width: 230px;
 	overflow: auto;

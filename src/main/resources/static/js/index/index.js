@@ -4,13 +4,14 @@ $(function() {
 	var icon = ["icon-dashboard", "icon-book", "icon-cogs", "icon-tasks", "icon-th", "icon-envelope", "icon-user"]
 	
 	var permissionData = 
-		[{"children":[{"name":"视频维护","id":64,"url":"listSp"},
+		[{"children":[{"name":"角色管理","id":2,"url":"listRole"},{"name":"权限管理","id":3,"url":"listPermission"},
+			{"name":"用户管理","id":62,"url":"listUser"}],"name":"系统管理","id":31,"url":""},
+			{"children":[{"name":"视频维护","id":64,"url":"listSp"},
 			{"name":"网吧维护","id":65,"url":"listWb"},
 			{"name":"卡口维护","id":66,"url":"listKk"},
 			{"name":"加油站维护","id":67,"url":"listJyz"},
 			{"name":"医院维护","id":68,"url":"listYy"},
-			{"name":"旅店维护","id":69,"url":"listLd"},],"name":"地图管理","id":63,"url":""},
-		{"children":[{"name":"角色管理","id":2,"url":"listRole"},{"name":"权限管理","id":3,"url":"listPermission"},{"name":"用户管理","id":62,"url":"listUser"}],"name":"系统管理","id":31,"url":""}];
+			{"name":"旅店维护","id":69,"url":"listLd"},],"name":"地图管理","id":63,"url":""}];
 	
 	var data = {
 		active: null, //用来确认当前展示的功能页面
@@ -37,6 +38,7 @@ $(function() {
 					sessionStorage.clear();
 					axios.get(url).then(function() {
 						location.reload();
+						$.cookie("autoLogin", "false", {expires: -1});
 					});
 				});
 			},

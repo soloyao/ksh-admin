@@ -6,9 +6,9 @@
     <mapper namespace="com.hnkc.mapper.UserMapper">
     	<select id="listPcsTree" resultType="PcsTree">
     		select id,pid,name from (
-			select fullname as name,id,'' as pid from t_zzjg_gd where id = '440000000000'
+			select name as name,id,'' as pid from t_zzjg_gd where id = '440000000000'
 			union
-			select fullname as name,id,parentid as pid from t_zzjg_gd where (name like '%局' or name like '%派出所') and id not like '__0000______'
+			select name as name,id,parentid as pid from t_zzjg_gd where (name like '%局' or name like '%派出所') and id not like '__0000______'
 			) order by id asc
     	</select>
     
@@ -17,7 +17,7 @@
     	</select>
     	
     	<select id="exist" resultType="int">
-    		select count(*) from t_sys_yh where yhzh = #{yhzh} and isel = '0'
+    		select count(*) from t_sys_yh where yhzh = #{yhzh} and isdel = '0'
     	</select>
     	
     	<resultMap type="User" id="userBean">
@@ -83,7 +83,7 @@
     	</update>
     	
     	<insert id="add" useGeneratedKeys="true" keyProperty="id">
-    		insert into t_sys_yh(yhzh,yhmm,yhxm,jybh,jylx,zw,yhxb,sjhm,zzjgdm,zzjgmc,qydm)
-    		values(#{yhzh},#{yhmm},#{jybh},#{jylx},#{zw},#{yhxb},#{sjhm},#{zzjgdm},#{zzjgmc},#{qydm})
+    		insert into t_sys_yh(yhzh,yhmm,yhxm,jybh,jylx,zw,yhxb,sjhm,zzjgdm,zzjgmc,qydm,cjsj)
+    		values(#{yhzh},#{yhmm},#{yhxm},#{jybh},#{jylx},#{zw},#{yhxb},#{sjhm},#{zzjgdm},#{zzjgmc},#{qydm},sysdate)
     	</insert>
     </mapper>

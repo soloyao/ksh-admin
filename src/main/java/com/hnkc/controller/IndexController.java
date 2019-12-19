@@ -43,6 +43,13 @@ public class IndexController {
 		return mav;
 	}
 	
+	@GetMapping("/")
+	@LogAnnotation(desc = "跳转至首页")
+	public ModelAndView index1() {
+		ModelAndView mav = new ModelAndView("index/index");
+		return mav;
+	}
+	
 	@GetMapping("/listCategory")
 	@LogAnnotation(desc = "跳转至分类管理页面")
 	public ModelAndView listCategory() {

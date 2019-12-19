@@ -10,6 +10,7 @@
 	<script src="./static/js/common/vue.min.js"></script>
 	<script src="./static/js/common/axios.min.js"></script>
 	<script src="./static/js/common/myzui.js"></script>
+	<script src="./static/js/common/jquery.cookie.js"></script>
 	<script src="./static/js/login/login.js"></script>
 	<link href="./static/css/zui.css" rel="stylesheet" />
 	<link rel="stylesheet" type="text/css" href="./static/css/login/default.css">
@@ -19,7 +20,7 @@
 <div id="app">
 	<article class="htmleaf-container">
 		<header class="htmleaf-header">
-			<h1>后台管理登录<span>作者 : zmy(343722243@qq.com)</span></h1>
+			<h1>可视化管理登录</h1>
 			<div class="htmleaf-links">
 			</div>
 		</header>
@@ -36,7 +37,11 @@
 		  <div class="form-group1">
 		    <input type="password" required="required" class="form-control1" v-model="user4Login.yhmm" @keydown="loginKeyDown" />
 		    <label class="form-label1">密码</label>
-		  </div><a href="#">忘记密码？</a>
+		  </div>
+		  <div>
+			  <input type="checkbox" id="primaryCheckbox1"><label style="margin-right:160px;font-weight:normal;" for="primaryCheckbox1">自动登录</label>
+			  <a href="#">忘记密码？</a>
+		  </div>
 		  <button class="floating-btn" @click="login"><i class="icon-arrow"></i></button>
 		</div>
 	</article>

@@ -42,7 +42,7 @@ public class PermissionController {
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
 			@RequestParam(value = "flzj") String flzj) {
-		PageHelper.startPage(start, size, "id desc");
+		PageHelper.startPage(start, size, "cjsj desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
 		paramMap.put("flzj", flzj);
 		if (!StringUtils.isEmpty(keyword)) {

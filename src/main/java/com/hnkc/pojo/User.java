@@ -3,20 +3,20 @@ package com.hnkc.pojo;
 import java.util.List;
 
 public class User {
-	private String id;
-	private String yhzh;
-	private String yhmm;
-	private String yhxm;
-	private String jybh;
-	private String jylx;
-	private String zw;
-	private String yhxb;
-	private String sjhm;
-	private String cjsj;
-	private String isdel;
-	private String zzjgdm;
-	private String zzjgmc;
-	private String qydm;
+	private String id = "";
+	private String yhzh = "";
+	private String yhmm = "";
+	private String yhxm = "";
+	private String jybh = "";
+	private String jylx = "";
+	private String zw = "";
+	private String yhxb = "";
+	private String sjhm = "";
+	private String cjsj = "";
+	private String isdel = "";
+	private String zzjgdm = "";
+	private String zzjgmc = "";
+	private String qydm = "";
 	private List<Role> roles;
 	public List<Role> getRoles() {
 		return roles;

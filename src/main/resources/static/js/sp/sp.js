@@ -5,7 +5,7 @@ $(function() {
 			pagination: {},
 			keyword: "",
 			isEditShow: false,
-			isLoading: false,
+			isLoading: true,
 			editTitle: "",
 			size: 15,
 			map: null,
@@ -62,7 +62,6 @@ $(function() {
 					var url = "sps";
 					_this.sp4Add.zzjgdm = $("#zzjgmc").data("id");
 					_this.sp4Add.zzjgmc = $("#zzjgmc").val();
-					console.log(_this.sp4Add);
 					if (_this.sp4Add.tid == "") { //add
 						_this.sp4Add.x = _this.sp4Add.shape.split(",")[0];
 						_this.sp4Add.y = _this.sp4Add.shape.split(",")[1];

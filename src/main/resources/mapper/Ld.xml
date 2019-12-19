@@ -25,7 +25,7 @@
     		update t_layer_ld set isdel = '1' where tid = #{tid}
     	</delete>
     	<insert id="add">
-    		insert into t_layer_ld(tid,mc,dz,x,y,lxdh,fzr,shape,createtime,isdel,zzjgdm,zzjgmc,qydm)
-    		values(sys_guid(),#{mc},#{dz},#{x},#{y},#{lxdh},#{fzr},#{shape},sysdate,'0',#{zzjgdm},#{zzjgmc},#{qydm})
+    		insert into t_layer_ld(tid,mc,dz,x,y,lxdh,fzr,shape,zzjgdm,zzjgmc,qydm)
+    		values(sys_guid(),#{mc},#{dz},#{x},#{y},#{lxdh},#{fzr},#{shape},#{zzjgdm},#{zzjgmc},#{qydm})
     	</insert>
     </mapper>

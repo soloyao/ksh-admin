@@ -35,7 +35,7 @@
     	<select id="list" resultMap="roleBean">
     		select * from t_sys_js where isdel = '0'
     		<if test="keyword != null">
-    			and jsmc like concat('%', #{keyword}, '%')
+    			and jsmc like #{keyword}
     		</if>
     		order by cjsj desc
     	</select>
