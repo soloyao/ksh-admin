@@ -92,7 +92,7 @@
 			</div>
 		</div>
 		
-		<div class="col-md-2 content">
+		<div class="col-md-2 content" style="height:calc(40% - 10px);">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
 					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配角色</button>
@@ -101,6 +101,17 @@
 					<!-- ztree batch start -->
 					<ul id="treeBatch" class="ztree"></ul>
 					<!-- ztree batch end -->
+				</div>
+			</div>
+		</div>
+		
+		<div class="col-md-2 content" style="height:calc(60% - 10px);margin-top:20px;">
+			<div class="panel">
+				<div class="panel-heading" style="text-align:left;">
+					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配代理机构</button>
+				</div>
+				<div class="panel-body" style="height:calc(100% - 49px);">
+					<ul id="treeBatch" class="ztree"></ul>
 				</div>
 			</div>
 		</div>
