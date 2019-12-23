@@ -51,7 +51,7 @@
 						 	<thead>
 						 		<th width="47"><div @click="checkboxAll" class="checkbox-primary checkbox-parent" style="width:16px;"><label></label></div></th>
 								<th width="100">用户名</th>
-								<th width="200">姓名</th>
+								<th width="100">姓名</th>
 								<!-- <th width="228">手机号码</th>
 								<th width="137">性别</th> -->
 								<th width="340">单位</th>
@@ -66,7 +66,7 @@
 								<tr v-for="user in users">
 									<td width="47"><div @click="checkbox" class="checkbox-primary checkbox-children" style="width:16px;" :data-id="user.id"><label></label></div></td>
 									<td width="100">{{user.yhzh}}</td>
-									<td width="200">{{user.yhxm}}</td>
+									<td width="100">{{user.yhxm}}</td>
 									<!-- <td width="228">{{user.sjhm}}</td>
 									<td width="137">{{user.yhxb}}</td> -->
 									<td width="340">{{user.zzjgmc}}</td>
@@ -108,10 +108,10 @@
 		<div class="col-md-2 content" style="height:calc(60% - 10px);margin-top:20px;">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
-					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配代理机构</button>
+					<button class="btn btn-success" @click="saveBatchDljg"><i class="icon icon-exchange"></i>批量分配代理机构</button>
 				</div>
 				<div class="panel-body" style="height:calc(100% - 49px);">
-					<ul id="treeBatch" class="ztree"></ul>
+					<ul id="treeDljg" class="ztree"></ul>
 				</div>
 			</div>
 		</div>

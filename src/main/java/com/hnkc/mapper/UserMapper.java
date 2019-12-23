@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.hnkc.pojo.PcsTree;
 import com.hnkc.pojo.User;
+import com.hnkc.pojo.UserDljg;
 import com.hnkc.pojo.UserRole;
 
 
@@ -19,7 +20,9 @@ public interface UserMapper {
 	void update(User user);
 	void delete(String id);
 	void deleteRoleByUserId(String id);
+	void deleteDljgByUserId(String yhzj);
 	User get(String id);
 	void addRoleByUserId(UserRole userRole);
+	void addDljgByUserId(UserDljg userDljg);
 	List<PcsTree> listPcsTree();
 }

@@ -6,13 +6,16 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import com.hnkc.pojo.PcsTree;
 import com.hnkc.pojo.Role;
 import com.hnkc.pojo.User;
+import com.hnkc.pojo.UserDljg;
 import com.hnkc.pojo.UserRole;
 import com.hnkc.mapper.UserMapper;
 import com.hnkc.service.UserService;
+import com.hnkc.util.StringUtil;
 
 
 @Service
@@ -83,6 +86,24 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+	@Override
+	public void updateBatchDljg(Set<String> userIds, String dljgId, String dljgName) {
+		//删除当前用户关联代理机构
+		for (String userId : userIds) {
+			userMapper.deleteDljgByUserId(userId);
+		}
+		//修改用户关联代理机构
+		if (!StringUtils.isEmpty(dljgId)) {
+			for (String yhzj : userIds) {
+				UserDljg userDljg = new UserDljg();
+				userDljg.setYhzj(yhzj);
+				userDljg.setDljgzj(dljgId);
+				userDljg.setDljgname(dljgName);
+				userMapper.addDljgByUserId(userDljg);
+			}
+		}
+	}
+	
 	@Override
 	public void delete(String id) {
 		userMapper.delete(id);//删除用户

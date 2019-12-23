@@ -73,6 +73,14 @@
     		update t_sys_yhjsgx set isdel = '1' where yhzj = #{yhzj}
     	</update>
     	
+    	<delete id="deleteDljgByUserId">
+    		delete from t_sys_yhdljggx where yhzj = #{yhzj}
+    	</delete>
+    	
+    	<insert id="addDljgByUserId">
+    		insert into t_sys_yhdljggx(yhzj, dljgzj, dljgname) values(#{yhzj}, #{dljgzj}, #{dljgname})
+    	</insert>
+    	
     	<insert id="addRoleByUserId">
     		insert into t_sys_yhjsgx(yhzj, jszj) values(#{yhzj}, #{jszj})
     	</insert>

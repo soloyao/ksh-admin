@@ -129,6 +129,20 @@ public class UserController {
 		return "分配成功";
 	}
 	
+	@PostMapping("/dljgBatch")
+	@LogAnnotation(desc = "批量分配代理机构")
+	public String dljgBatch(@RequestBody JSONObject params) {
+		String[] userStrs = params.get("userIds").toString().split(",");
+		Set<String> userIds = new HashSet<String>();
+		for (String userStr : userStrs) {
+			userIds.add(userStr);
+		}
+		String dljgId = params.getString("dljgId");
+		String dljgName = params.getString("dljgName");
+		userService.updateBatchDljg(userIds, dljgId, dljgName);
+		return "分配成功";
+	}
+	
 	@PostMapping("/users")
 	@LogAnnotation(desc = "新增用户")
 	public String add(@RequestBody User user) throws NoSuchAlgorithmException {

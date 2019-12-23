@@ -17,5 +17,6 @@ public interface UserService {
 	void delete(String id);
 	User get(String id);
 	void updateBatch(Set<String> userIds, Set<String> roleIds);
+	void updateBatchDljg(Set<String> userIds, String dljgId, String dljgName);
 	List<PcsTree> listPcsTree();
 }

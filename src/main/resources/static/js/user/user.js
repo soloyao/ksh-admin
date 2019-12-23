@@ -1,4 +1,36 @@
 $(function() {
+	var zTreeObjDljg;
+	var settingDljg = {
+		view: {
+			selectedMulti: true
+		},
+		check: {
+			enable: true,
+			chkStyle: "radio",
+			radioType: "all"
+		},
+		data: {
+			simpleData: {
+				enable: true,
+				idKey: "id",
+				pIdKey: "pid",
+				rootPId: 0
+			},
+			key: {
+				url: "xUrl"
+			}
+		},
+		callback: {
+			beforeClick: function() {
+				return false;
+			},
+			onClick: function(e, treeId, treeNode, clickFlag) {
+				return false;
+			}
+		}
+	};
+	var zTreeNodesDljg = [];
+	
 	var zTreeObjZzjg;
 	var settingZzjg = {
 		view: {
@@ -96,6 +128,10 @@ $(function() {
 				var url = "listPcsTree";
 				axios.get(url).then(function(res) {
 					if (res.data.code == 0) {
+						zTreeNodesDljg = res.data.data;
+						zTreeObjDljg = $.fn.zTree.init($("#treeDljg"), settingDljg, zTreeNodesDljg);
+//						zTreeObjDljg.expandAll(true);
+						zTreeObjDljg.expandNode(zTreeObjDljg.getNodeByParam("id", "440000000000", null), true);
 						zTreeNodesZzjg = res.data.data;
 						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
 						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
@@ -157,6 +193,42 @@ $(function() {
 					zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
 					zTreeObjBatch.expandAll(true);
 					zTreeObj.expandAll(true);
+				});
+			},
+			saveBatchDljg() {
+				var _this = this;
+				var nodes = zTreeObjDljg.transformToArray(zTreeObjDljg.getNodes());
+				var dljgId = "";
+				var dljgName = "";
+				for (var i = 0, l = nodes.length; i < l; i++) {
+					if (nodes[i].checked) {
+						dljgId = nodes[i].id;
+						dljgName = nodes[i].name;
+						break;
+					}
+				}
+				var userIds = $("tbody .checked").map(function(item, ele) {
+					return $(ele).data("id");
+				}).get().join(",");
+				if (!userIds || !dljgId || !dljgName) {
+					myzui._error("所选用户或代理机构不能为空");
+					return;
+				}
+				axios.post("dljgBatch", {userIds: userIds, dljgId: dljgId, dljgName: dljgName}).then(function(res) {
+					myzui._success("代理机构分配成功");
+					
+					var node = zTreeObjDljg.getNodes();
+					var nodes = zTreeObjDljg.transformToArray(node);
+					for (var i = 0; i < nodes.length; i++) {
+						if (nodes[i].checked) {
+							zTreeObjDljg.checkNode(nodes[i], false, false);
+							break;
+						}
+					}
+					
+					_this.list(1);
+					_this.checkboxAllFlag = true;
+					_this.checkboxAll();
 				});
 			},
 			saveBatch() {
