@@ -55,6 +55,7 @@
 								<!-- <th width="228">手机号码</th>
 								<th width="137">性别</th> -->
 								<th width="340">单位</th>
+								<th>代理机构</th>
 								<th width="123">关联角色</th>
 								<th width="123">操作</th>
 						 	</thead>
@@ -70,6 +71,7 @@
 									<!-- <td width="228">{{user.sjhm}}</td>
 									<td width="137">{{user.yhxb}}</td> -->
 									<td width="340">{{user.zzjgmc}}</td>
+									<td>{{user.dljgname}}</td>
 									<td width="123"><template v-for="role in user.roles">{{role.jsmc}}</template></td>
 									<td width="123">
 										<button class="btn btn-xs btn-primary" @click="updateEdit(user)"><i class="icon icon-pencil"></i></button>

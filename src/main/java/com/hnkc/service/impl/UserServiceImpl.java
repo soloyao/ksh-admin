@@ -34,7 +34,12 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public List<User> list(Map<String, String> paramMap) {
-		return userMapper.list(paramMap);
+		List<User> list = userMapper.list(paramMap);
+		for (User user : list) {
+			UserDljg userDljg = userMapper.getDljgByUserId(user.getId());
+			user.setDljgname(userDljg != null ? userDljg.getDljgname() : "");
+		}
+		return list;
 	}
 
 	@Override

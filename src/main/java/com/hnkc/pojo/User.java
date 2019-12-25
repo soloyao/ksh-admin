@@ -2,8 +2,6 @@ package com.hnkc.pojo;
 
 import java.util.List;
 
-import com.hnkc.util.StringUtil;
-
 public class User {
 	private String id = "";
 	private String yhzh = "";
@@ -20,6 +18,13 @@ public class User {
 	private String zzjgmc = "";
 	private String qydm = "";
 	private List<Role> roles;
+	private String dljgname = "";
+	public String getDljgname() {
+		return dljgname;
+	}
+	public void setDljgname(String dljgname) {
+		this.dljgname = dljgname;
+	}
 	public List<Role> getRoles() {
 		return roles;
 	}

@@ -25,4 +25,5 @@ public interface UserMapper {
 	void addRoleByUserId(UserRole userRole);
 	void addDljgByUserId(UserDljg userDljg);
 	List<PcsTree> listPcsTree();
+	UserDljg getDljgByUserId(String yhzj);
 }

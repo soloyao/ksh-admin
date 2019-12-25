@@ -4,7 +4,7 @@ public class UserDljg {
 	private String id;
 	private String yhzj;
 	private String dljgzj;
-	private String dljgname;
+	private String dljgname = "";
 	private String cjsj;
 	public String getId() {
 		return id;

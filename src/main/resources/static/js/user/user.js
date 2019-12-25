@@ -210,8 +210,29 @@ $(function() {
 				var userIds = $("tbody .checked").map(function(item, ele) {
 					return $(ele).data("id");
 				}).get().join(",");
-				if (!userIds || !dljgId || !dljgName) {
-					myzui._error("所选用户或代理机构不能为空");
+				if (!userIds) {
+					myzui._error("所选用户不能为空");
+					return;
+				}
+				if (!dljgId && !dljgName) {
+					myzui.confirm("该操作将会去除用所选用户的代理机构，确认继续？", function() {
+						axios.post("dljgBatch", {userIds: userIds, dljgId: dljgId, dljgName: dljgName}).then(function(res) {
+							myzui._success("代理机构分配成功");
+							
+							var node = zTreeObjDljg.getNodes();
+							var nodes = zTreeObjDljg.transformToArray(node);
+							for (var i = 0; i < nodes.length; i++) {
+								if (nodes[i].checked) {
+									zTreeObjDljg.checkNode(nodes[i], false, false);
+									break;
+								}
+							}
+							
+							_this.list(1);
+							_this.checkboxAllFlag = true;
+							_this.checkboxAll();
+						});
+					});
 					return;
 				}
 				axios.post("dljgBatch", {userIds: userIds, dljgId: dljgId, dljgName: dljgName}).then(function(res) {
