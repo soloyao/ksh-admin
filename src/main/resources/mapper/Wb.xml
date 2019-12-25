@@ -5,7 +5,8 @@
   
     <mapper namespace="com.hnkc.mapper.WbMapper">
     	<select id="list" resultType="Wb">
-    		select * from t_layer_wb where isdel = '0'
+    		select tid,mc,dz,x,y,lx,lxdh,fzr,zzjgdm,zzjgmc,shape,to_char(createtime,'yyyy-MM-dd hh24:mi:ss') as createtime,
+    		isdel,qydm from t_layer_wb where isdel = '0'
     		<if test="keyword != null">
     			and mc like #{keyword}
     		</if>

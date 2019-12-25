@@ -5,7 +5,8 @@
   
     <mapper namespace="com.hnkc.mapper.JyzMapper">
     	<select id="list" resultType="Jyz">
-    		select * from t_layer_jyz where isdel = '0'
+    		select tid,mc,dz,x,y,lx,lxdh,fzr,shape,to_char(createtime,'yyyy-MM-dd hh24:mi:ss') as createtime,
+    		isdel,zzjgdm,zzjgmc,qydm from t_layer_jyz where isdel = '0'
     		<if test="keyword != null">
     			and mc like #{keyword}
     		</if>
