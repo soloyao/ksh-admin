@@ -29,7 +29,7 @@ public class SpController {
 	@Autowired SpService spService;
 	
 	@GetMapping("/sps")
-	@LogAnnotation(desc = "分页获取视频数据")
+	@LogAnnotation(funs="视频管理页面",name="分页获取视频数据",type="query")
 	public PageInfo<Sp> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class SpController {
 	}
 	
 	@GetMapping("/sps/{tid}")
-	@LogAnnotation(desc = "获取单个视频")
+	@LogAnnotation(funs="视频管理页面",name="根据编号获取视频数据",type="query")
 	public Sp get(@PathVariable("tid") String tid) {
 		Sp sp = spService.get(tid);
 		return sp;
 	}
 	
 	@PostMapping("/sps")
-	@LogAnnotation(desc = "新增视频")
+	@LogAnnotation(funs="视频管理页面",name="新增视频数据",type="insert")
 	public String add(@RequestBody Sp sp) {
 		sp.setQydm(sp.getZzjgdm().substring(0, 4));
 		spService.add(sp);
@@ -63,7 +63,7 @@ public class SpController {
 	}
 	
 	@PutMapping("/sps")
-	@LogAnnotation(desc = "修改视频")
+	@LogAnnotation(funs="视频管理页面",name="修改视频数据",type="update")
 	public String update(@RequestBody Sp sp) {
 		sp.setQydm(sp.getZzjgdm().substring(0, 4));
 		spService.update(sp);
@@ -71,7 +71,7 @@ public class SpController {
 	}
 	
 	@DeleteMapping("/sps/{tid}")
-	@LogAnnotation(desc = "删除视频")
+	@LogAnnotation(funs="视频管理页面",name="删除视频数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		spService.delete(tid);
 		return "删除成功";

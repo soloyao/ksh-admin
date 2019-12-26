@@ -29,7 +29,7 @@ public class YyController {
 	@Autowired YyService yyService;
 	
 	@GetMapping("/yys")
-	@LogAnnotation(desc = "分页获取医院数据")
+	@LogAnnotation(funs="医院管理页面",name="分页获取医院数据",type="query")
 	public PageInfo<Yy> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class YyController {
 	}
 	
 	@GetMapping("/yys/{tid}")
-	@LogAnnotation(desc = "获取单个医院")
+	@LogAnnotation(funs="医院管理页面",name="根据编号获取医院数据",type="query")
 	public Yy get(@PathVariable("tid") String tid) {
 		Yy yy = yyService.get(tid);
 		return yy;
 	}
 	
 	@PostMapping("/yys")
-	@LogAnnotation(desc = "新增医院")
+	@LogAnnotation(funs="医院管理页面",name="新增医院数据",type="query")
 	public String add(@RequestBody Yy yy) {
 		yy.setQydm(yy.getZzjgdm().substring(0, 4));
 		yyService.add(yy);
@@ -63,7 +63,7 @@ public class YyController {
 	}
 	
 	@PutMapping("/yys")
-	@LogAnnotation(desc = "修改医院")
+	@LogAnnotation(funs="医院管理页面",name="修改医院数据",type="update")
 	public String update(@RequestBody Yy yy) {
 		yy.setQydm(yy.getZzjgdm().substring(0, 4));
 		yyService.update(yy);
@@ -71,7 +71,7 @@ public class YyController {
 	}
 	
 	@DeleteMapping("/yys/{tid}")
-	@LogAnnotation(desc = "删除医院")
+	@LogAnnotation(funs="医院管理页面",name="删除医院数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		yyService.delete(tid);
 		return "删除成功";

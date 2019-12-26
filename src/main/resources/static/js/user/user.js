@@ -190,7 +190,7 @@ $(function() {
 					zTreeNodesBatch = res.data;
 					zTreeNodes = res.data;
 					zTreeObjBatch = $.fn.zTree.init($("#treeBatch"), settingBatch, zTreeNodesBatch);
-					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
+					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("jsmc", "默认潮州警员角色", null), true ,false);
 					zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
 					zTreeObjBatch.expandAll(true);
 					zTreeObj.expandAll(true);

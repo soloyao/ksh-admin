@@ -4,17 +4,17 @@ $(function() {
 	var icon = ["icon-dashboard", "icon-book", "icon-cogs", "icon-tasks", "icon-th", "icon-envelope", "icon-user"]
 	
 	var permissionData = 
-			[{"children":[{"name":"角色管理","id":2,"url":"listRole","icon":"icon-dashboard"},
-			{"name":"权限管理","id":3,"url":"listPermission","icon":"icon-tasks"},
+			[{"children":[{"name":"角色管理","id":2,"url":"listRole","icon":"icon-group"},
+			{"name":"权限管理","id":3,"url":"listPermission","icon":"icon-th"},
 			{"name":"用户管理","id":62,"url":"listUser","icon":"icon-user"}],
-			"name":"系统管理","id":31,"url":"","icon":"icon-dashboard"},
-			{"children":[{"name":"视频维护","id":64,"url":"listSp","icon":"icon-th"},
-			{"name":"网吧维护","id":65,"url":"listWb","icon":"icon-envelope"},
-			{"name":"卡口维护","id":66,"url":"listKk","icon":"icon-book"},
-			{"name":"加油站维护","id":67,"url":"listJyz","icon":"icon-cogs"},
-			{"name":"医院维护","id":68,"url":"listYy","icon":"icon-th"},
+			"name":"系统管理","id":31,"url":"","icon":"icon-tasks"},
+			{"children":[{"name":"视频维护","id":64,"url":"listSp","icon":"icon-camera-retro"},
+			{"name":"网吧维护","id":65,"url":"listWb","icon":"icon-laptop"},
+			{"name":"卡口维护","id":66,"url":"listKk","icon":"icon-cogs"},
+			{"name":"加油站维护","id":67,"url":"listJyz","icon":"icon-dashboard"},
+			{"name":"医院维护","id":68,"url":"listYy","icon":"icon-server"},
 			{"name":"旅店维护","id":69,"url":"listLd","icon":"icon-inbox"}],
-			"name":"地图管理","id":63,"url":"","icon":"icon-th-list"}];
+			"name":"地图管理","id":63,"url":"","icon":"icon-map-marker"}];
 	
 	var data = {
 		active: null, //用来确认当前展示的功能页面

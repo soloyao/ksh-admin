@@ -37,7 +37,6 @@ public class RoleController {
 	JSONObject json = new JSONObject();
 	
 	@GetMapping("/roles")
-	@LogAnnotation(desc = "分页获取所有角色")
 	public PageInfo<Role> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
@@ -52,7 +51,6 @@ public class RoleController {
 	}
 	
 	@GetMapping("/roles/{id}")
-	@LogAnnotation(desc = "获取单个角色")
 	public String get(@PathVariable("id") String id) {
 		Role role = roleService.get(id);
 		List<Permission> permissions = permissionService.list(null);
@@ -68,7 +66,7 @@ public class RoleController {
 	}
 	
 	@PostMapping("/rolesBatch")
-	@LogAnnotation(desc = "批量分配角色权限")
+	@LogAnnotation(funs="角色管理页面",name="为菜单批量分配权限",type="update")
 	public String addBatch(@RequestBody JSONObject params) {
 		String[] roleStrs = params.get("roleIds").toString().split(",");
 		Set<String> roleIds = new HashSet<String>();
@@ -85,7 +83,7 @@ public class RoleController {
 	}
 	
 	@PostMapping("/roles")
-	@LogAnnotation(desc = "新增角色")
+	@LogAnnotation(funs="角色管理页面",name="新增角色",type="insert")
 	public String add(@RequestBody Role role) {
 		int exist = roleService.exist(role);
 		if (0 != exist) {
@@ -101,14 +99,14 @@ public class RoleController {
 	}
 	
 	@PutMapping("/roles")
-	@LogAnnotation(desc = "修改角色")
+	@LogAnnotation(funs="角色管理页面",name="修改角色",type="update")
 	public String update(@RequestBody Role role) {
 		roleService.update(role);
 		return "修改成功";
 	}
 	
 	@DeleteMapping("/roles/{id}")
-	@LogAnnotation(desc = "删除角色")
+	@LogAnnotation(funs="角色管理页面",name="删除角色",type="delete")
 	public String delete(@PathVariable("id") String id) {
 		roleService.delete(id);
 		return "删除成功";

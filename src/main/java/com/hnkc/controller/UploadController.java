@@ -17,7 +17,6 @@ import springfox.documentation.annotations.ApiIgnore;
 @RestController
 public class UploadController {
 	@PostMapping("/upload")
-	@LogAnnotation(desc = "上传文件")
 	public String upload(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
 		String fileName = null;
 		try {

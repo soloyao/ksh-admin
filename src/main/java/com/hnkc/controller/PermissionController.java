@@ -31,13 +31,11 @@ public class PermissionController {
 	JSONObject json = new JSONObject();
 	
 	@GetMapping("/parentPermissions")
-	@LogAnnotation(desc = "获取所有的父菜单")
 	public List<Permission> list() {
 		return permissionService.listParentPermissions();
 	}
 	
 	@GetMapping("/permissions")
-	@LogAnnotation(desc = "分页获取所有菜单")
 	public PageInfo<Permission> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -54,14 +52,13 @@ public class PermissionController {
 	}
 	
 	@GetMapping("/permissions/{id}")
-	@LogAnnotation(desc = "获取单个菜单")
 	public Permission get(@PathVariable("id") String id) {
 		Permission permission = permissionService.get(id);
 		return permission;
 	}
 	
 	@PostMapping("/permissions")
-	@LogAnnotation(desc = "新增菜单")
+	@LogAnnotation(funs="权限管理页面",name="新增权限",type="insert")
 	public String add(@RequestBody Permission permission) {
 		int exist = permissionService.exist(permission);
 		if (0 != exist) {
@@ -76,14 +73,14 @@ public class PermissionController {
 	}
 	
 	@PutMapping("/permissions")
-	@LogAnnotation(desc = "修改菜单")
+	@LogAnnotation(funs="权限管理页面",name="修改权限",type="update")
 	public String update(@RequestBody Permission permission) {
 		permissionService.update(permission);
 		return "修改成功";
 	}
 	
 	@DeleteMapping("/permissions/{id}")
-	@LogAnnotation(desc = "删除菜单")
+	@LogAnnotation(funs="权限管理页面",name="删除权限",type="delete")
 	public String delete(@PathVariable("id") String id) {
 		permissionService.delete(id);
 		return "删除成功";

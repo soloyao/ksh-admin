@@ -29,7 +29,7 @@ public class WbController {
 	@Autowired WbService wbService;
 	
 	@GetMapping("/wbs")
-	@LogAnnotation(desc = "分页获取网吧数据")
+	@LogAnnotation(funs="网吧管理页面",name="分页获取网吧数据",type="query")
 	public PageInfo<Wb> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class WbController {
 	}
 	
 	@GetMapping("/wbs/{tid}")
-	@LogAnnotation(desc = "获取单个网吧")
+	@LogAnnotation(funs="网吧管理页面",name="根据编号获取网吧数据",type="query")
 	public Wb get(@PathVariable("tid") String tid) {
 		Wb wb = wbService.get(tid);
 		return wb;
 	}
 	
 	@PostMapping("/wbs")
-	@LogAnnotation(desc = "新增网吧")
+	@LogAnnotation(funs="网吧管理页面",name="新增网吧数据",type="insert")
 	public String add(@RequestBody Wb wb) {
 		wb.setQydm(wb.getZzjgdm().substring(0, 4));
 		wbService.add(wb);
@@ -63,7 +63,7 @@ public class WbController {
 	}
 	
 	@PutMapping("/wbs")
-	@LogAnnotation(desc = "修改网吧")
+	@LogAnnotation(funs="网吧管理页面",name="修改网吧数据",type="update")
 	public String update(@RequestBody Wb wb) {
 		wb.setQydm(wb.getZzjgdm().substring(0, 4));
 		wbService.update(wb);
@@ -71,7 +71,7 @@ public class WbController {
 	}
 	
 	@DeleteMapping("/wbs/{tid}")
-	@LogAnnotation(desc = "删除网吧")
+	@LogAnnotation(funs="网吧管理页面",name="删除网吧数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		wbService.delete(tid);
 		return "删除成功";

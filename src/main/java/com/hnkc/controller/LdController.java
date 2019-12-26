@@ -29,7 +29,7 @@ public class LdController {
 	@Autowired LdService ldService;
 	
 	@GetMapping("/lds")
-	@LogAnnotation(desc = "分页获取旅店数据")
+	@LogAnnotation(funs="旅店管理页面",name="分页查询旅店数据",type="query")
 	public PageInfo<Ld> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class LdController {
 	}
 	
 	@GetMapping("/lds/{tid}")
-	@LogAnnotation(desc = "获取单个旅店")
+	@LogAnnotation(funs="旅店管理页面",name="根据编号查询旅店数据",type="query")
 	public Ld get(@PathVariable("tid") String tid) {
 		Ld ld = ldService.get(tid);
 		return ld;
 	}
 	
 	@PostMapping("/lds")
-	@LogAnnotation(desc = "新增旅店")
+	@LogAnnotation(funs="旅店管理页面",name="新增旅店数据",type="insert")
 	public String add(@RequestBody Ld ld) {
 		ld.setQydm(ld.getZzjgdm().substring(0, 4));
 		ldService.add(ld);
@@ -63,7 +63,7 @@ public class LdController {
 	}
 	
 	@PutMapping("/lds")
-	@LogAnnotation(desc = "修改旅店")
+	@LogAnnotation(funs="旅店管理页面",name="修改旅店数据",type="update")
 	public String update(@RequestBody Ld ld) {
 		ld.setQydm(ld.getZzjgdm().substring(0, 4));
 		ldService.update(ld);
@@ -71,7 +71,7 @@ public class LdController {
 	}
 	
 	@DeleteMapping("/lds/{tid}")
-	@LogAnnotation(desc = "删除旅店")
+	@LogAnnotation(funs="旅店管理页面",name="删除旅店数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		ldService.delete(tid);
 		return "删除成功";

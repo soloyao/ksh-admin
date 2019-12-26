@@ -41,7 +41,6 @@ public class UserController {
 	@Autowired RoleService roleService;
 	
 	@GetMapping("/listPcsTree")
-	@LogAnnotation(desc = "获取所有单位树")
 	public String listPcsTree() {
 		List<PcsTree> list = userService.listPcsTree();
 		JSONObject json = new JSONObject();
@@ -52,7 +51,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/login")
-	@LogAnnotation(desc = "登录")
+	@LogAnnotation(funs="用户管理",name="登录",type="query")
 	public String login(@RequestBody User user, HttpSession session) throws NoSuchAlgorithmException {
 		user.setYhmm(MD5.md5(user.getYhmm()));
 		User loginUser = userService.login(user);
@@ -68,7 +67,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/logout")
-	@LogAnnotation(desc = "注销")
+	@LogAnnotation(funs="用户管理",name="注销",type="query")
 	public void logout(HttpSession session) {
 		User user = (User) session.getAttribute("user");
 		if (null != user) {
@@ -77,7 +76,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	@LogAnnotation(desc = "分页获取所有用户")
+	@LogAnnotation(funs="用户管理页面",name="分页获取用户数据",type="query")
 	public PageInfo<User> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -96,7 +95,7 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{id}")
-	@LogAnnotation(desc = "获取单个用户")
+	@LogAnnotation(funs="用户管理页面",name="根据编号获取用户数据",type="query")
 	public String get(@PathVariable("id") String id) {
 		User user = userService.get(id);
 		List<Role> roles = roleService.list(null);
@@ -113,7 +112,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/usersBatch")
-	@LogAnnotation(desc = "批量分配用户角色")
+	@LogAnnotation(funs="用户管理页面",name="为用户批量分配角色",type="update")
 	public String addBatch(@RequestBody JSONObject params) {
 		String[] userStrs = params.get("userIds").toString().split(",");
 		Set<String> userIds = new HashSet<String>();
@@ -130,7 +129,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/dljgBatch")
-	@LogAnnotation(desc = "批量分配代理机构")
+	@LogAnnotation(funs="用户管理页面",name="为用户批量分配代理机构",type="update")
 	public String dljgBatch(@RequestBody JSONObject params) {
 		String[] userStrs = params.get("userIds").toString().split(",");
 		Set<String> userIds = new HashSet<String>();
@@ -144,7 +143,7 @@ public class UserController {
 	}
 	
 	@PostMapping("/users")
-	@LogAnnotation(desc = "新增用户")
+	@LogAnnotation(funs="用户管理页面",name="新增用户",type="insert")
 	public String add(@RequestBody User user) throws NoSuchAlgorithmException {
 		int exist = userService.exist(user);
 		JSONObject json = new JSONObject();
@@ -162,7 +161,7 @@ public class UserController {
 	}
 	
 	@PutMapping("/users")
-	@LogAnnotation(desc = "修改用户")
+	@LogAnnotation(funs="用户管理页面",name="修改用户数据",type="update")
 	public String update(@RequestBody User user) throws NoSuchAlgorithmException {
 		user.setQydm(user.getZzjgdm().substring(0, 4));
 		userService.update(user);
@@ -170,7 +169,7 @@ public class UserController {
 	}
 	
 	@DeleteMapping("/users/{id}")
-	@LogAnnotation(desc = "删除用户")
+	@LogAnnotation(funs="用户管理页面",name="删除用户数据",type="delete")
 	public String delete(@PathVariable("id") String id) {
 		userService.delete(id);
 		return "删除成功";

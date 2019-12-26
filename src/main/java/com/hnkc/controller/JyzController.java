@@ -29,7 +29,7 @@ public class JyzController {
 	@Autowired JyzService jyzService;
 	
 	@GetMapping("/jyzs")
-	@LogAnnotation(desc = "分页获取加油站数据")
+	@LogAnnotation(funs="加油站管理页面",name="分页查询加油站数据",type="query")
 	public PageInfo<Jyz> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class JyzController {
 	}
 	
 	@GetMapping("/jyzs/{tid}")
-	@LogAnnotation(desc = "获取单个加油站")
+	@LogAnnotation(funs="加油站管理页面",name="根据编号查询单个加油站数据",type="query")
 	public Jyz get(@PathVariable("tid") String tid) {
 		Jyz jyz = jyzService.get(tid);
 		return jyz;
 	}
 	
 	@PostMapping("/jyzs")
-	@LogAnnotation(desc = "新增加油站")
+	@LogAnnotation(funs="加油站管理页面",name="新增加油站数据",type="insert")
 	public String add(@RequestBody Jyz jyz) {
 		jyz.setQydm(jyz.getZzjgdm().substring(0, 4));
 		jyzService.add(jyz);
@@ -63,7 +63,7 @@ public class JyzController {
 	}
 	
 	@PutMapping("/jyzs")
-	@LogAnnotation(desc = "修改加油站")
+	@LogAnnotation(funs="加油站管理页面",name="修改加油站数据",type="update")
 	public String update(@RequestBody Jyz jyz) {
 		jyz.setQydm(jyz.getZzjgdm().substring(0, 4));
 		jyzService.update(jyz);
@@ -71,7 +71,7 @@ public class JyzController {
 	}
 	
 	@DeleteMapping("/jyzs/{tid}")
-	@LogAnnotation(desc = "删除加油站")
+	@LogAnnotation(funs="加油站管理页面",name="删除加油站数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		jyzService.delete(tid);
 		return "删除成功";

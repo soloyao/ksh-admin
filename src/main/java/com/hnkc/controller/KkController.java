@@ -29,7 +29,7 @@ public class KkController {
 	@Autowired KkService kkService;
 	
 	@GetMapping("/kks")
-	@LogAnnotation(desc = "分页获取卡口数据")
+	@LogAnnotation(funs="卡口管理页面",name="分页查询卡口数据",type="query")
 	public PageInfo<Kk> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,14 +48,14 @@ public class KkController {
 	}
 	
 	@GetMapping("/kks/{tid}")
-	@LogAnnotation(desc = "获取单个卡口")
+	@LogAnnotation(funs="卡口管理页面",name="根据编号查询卡口数据",type="query")
 	public Kk get(@PathVariable("tid") String tid) {
 		Kk kk = kkService.get(tid);
 		return kk;
 	}
 	
 	@PostMapping("/kks")
-	@LogAnnotation(desc = "新增卡口")
+	@LogAnnotation(funs="卡口管理页面",name="新增卡口数据",type="insert")
 	public String add(@RequestBody Kk kk) {
 		kk.setQydm(kk.getZzjgdm().substring(0, 4));
 		kkService.add(kk);
@@ -63,7 +63,7 @@ public class KkController {
 	}
 	
 	@PutMapping("/kks")
-	@LogAnnotation(desc = "修改卡口")
+	@LogAnnotation(funs="卡口管理页面",name="修改卡口数据",type="update")
 	public String update(@RequestBody Kk kk) {
 		kk.setQydm(kk.getZzjgdm().substring(0, 4));
 		kkService.update(kk);
@@ -71,7 +71,7 @@ public class KkController {
 	}
 	
 	@DeleteMapping("/kks/{tid}")
-	@LogAnnotation(desc = "删除卡口")
+	@LogAnnotation(funs="卡口管理页面",name="删除卡口数据",type="delete")
 	public String delete(@PathVariable("tid") String tid) {
 		kkService.delete(tid);
 		return "删除成功";

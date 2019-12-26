@@ -9,11 +9,15 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+import com.fasterxml.jackson.databind.ser.std.StdKeySerializers.Default;
+
 
 @Target({METHOD, TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 @Inherited
 @Documented
 public @interface LogAnnotation {
-	String desc();
+	String funs();
+	String name();
+	String type();
 }
