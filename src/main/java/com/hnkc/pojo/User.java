@@ -19,6 +19,13 @@ public class User {
 	private String qydm = "";
 	private List<Role> roles;
 	private String dljgname = "";
+	private String dljgid = "";
+	public String getDljgid() {
+		return dljgid;
+	}
+	public void setDljgid(String dljgid) {
+		this.dljgid = dljgid;
+	}
 	public String getDljgname() {
 		return dljgname;
 	}

@@ -1,5 +1,6 @@
 package com.hnkc.service.impl;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,7 @@ public class UserServiceImpl implements UserService {
 		for (User user : list) {
 			UserDljg userDljg = userMapper.getDljgByUserId(user.getId());
 			user.setDljgname(userDljg != null ? userDljg.getDljgname() : "");
+			user.setDljgid(userDljg != null ? userDljg.getDljgzj() : "");
 		}
 		return list;
 	}
@@ -53,6 +55,12 @@ public class UserServiceImpl implements UserService {
 				userMapper.addRoleByUserId(userRole);
 			}
 		}
+		//修改用户代理机构
+		Set<String> set = new HashSet<String>();
+		set.add(user.getId());
+		String dljgId = user.getDljgid();
+		String dljgName = user.getDljgname();
+		updateBatchDljg(set, dljgId, dljgName);
 	}
 
 	@Override
@@ -70,6 +78,32 @@ public class UserServiceImpl implements UserService {
 		}
 		//修改用户基础信息
 		userMapper.update(user);
+		//修改用户代理机构
+		Set<String> set = new HashSet<String>();
+		set.add(user.getId());
+		String dljgId = user.getDljgid();
+		String dljgName = user.getDljgname();
+		updateBatchDljg(set, dljgId, dljgName);
+	}
+	
+	@Override
+	public void updateBatchDljg(Set<String> userIds, String dljgId, String dljgName) {
+		//删除当前用户关联代理机构
+		if (userIds != null) {
+			for (String userId : userIds) {
+				userMapper.deleteDljgByUserId(userId);
+			}
+		}
+		//修改用户关联代理机构
+		if (!StringUtils.isEmpty(dljgId)) {
+			for (String yhzj : userIds) {
+				UserDljg userDljg = new UserDljg();
+				userDljg.setYhzj(yhzj);
+				userDljg.setDljgzj(dljgId);
+				userDljg.setDljgname(dljgName);
+				userMapper.addDljgByUserId(userDljg);
+			}
+		}
 	}
 	
 	@Override
@@ -91,24 +125,6 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
-	@Override
-	public void updateBatchDljg(Set<String> userIds, String dljgId, String dljgName) {
-		//删除当前用户关联代理机构
-		for (String userId : userIds) {
-			userMapper.deleteDljgByUserId(userId);
-		}
-		//修改用户关联代理机构
-		if (!StringUtils.isEmpty(dljgId)) {
-			for (String yhzj : userIds) {
-				UserDljg userDljg = new UserDljg();
-				userDljg.setYhzj(yhzj);
-				userDljg.setDljgzj(dljgId);
-				userDljg.setDljgname(dljgName);
-				userMapper.addDljgByUserId(userDljg);
-			}
-		}
-	}
-	
 	@Override
 	public void delete(String id) {
 		userMapper.delete(id);//删除用户

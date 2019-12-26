@@ -10,6 +10,7 @@
 <body>
 	<div id="app">
 		<div class="center">
+			<!-- 导航栏 -->
 			<div id="navigation" aria-multiselectable="true" class="panel-group" :style="{left:showNav=='none'?'-180px':'0px'}">
 				<div style="text-align:center;margin:15px 0;">
 					<i class="icon icon-cubes icon-2x" style="color:white;"></i>
@@ -29,7 +30,7 @@
 								<template v-for="(children, ind) in item.children" v-if="children">
 									<li :class="{children:children==active}" @click="childrenClick($event, children)">
 										<a href="javascript:void(0)">
-											<span>{{children.name}}</span>
+											<span><i class="icon" :class="children.icon"></i>{{children.name}}</span>
 										</a>
 									</li>
 								</template>
@@ -38,7 +39,23 @@
 					</div>
 				</div>
 			</div>
-			<div class="page-content" :style="{width:showNav=='none'?'100%':'calc(100% - 180px)'}">
+			<div class="mini-navigation panel-group" :style="{left:showNav=='none'?'0px':'-50px'}">
+				<template v-for="item in items">
+					<div class="panel panel-default" v-for="it in item.children">
+						<div class="panel panel-heading">
+							<h4>
+								<a>
+									<span :class="{childrenMini:it==active}">
+										<i class="icon" :class="it.icon" style="margin-right:12px;" :title="it.name" @click="childrenClick($event, it)"></i>
+									</span>
+								</a>
+							</h4>
+						</div>
+					</div>
+				</template>
+			</div>
+			<!-- 右侧 -->
+			<div class="page-content" :style="{width:showNav=='none'?'calc(100% - 50px)':'calc(100% - 180px)'}">
 				<div class="top">
 					<button class="btn btn-success" style="margin-left:10px;" @click="toggleNav" title="折叠导航栏" data-toggle="tooltip" data-placement="right">
 						<i class="icon icon-bars"></i>

@@ -3,39 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Flip Card Clock</title>
-<link rel="stylesheet" href="./static/css/zui.css">
-<link rel="stylesheet" href="./static/css/common/zui.uploader.css">
 <script src="./static/js/common/jquery.min.js"></script>
-<script src="./static/js/common/zui.js"></script>
-<script src="./static/js/common/zui.uploader.js"></script>
+<script src="https://lib.baomitu.com/underscore.js/1.9.1/underscore-min.js"></script>
 </head>
 <body>
-<img data-toggle="lightbox" src="./static/image/logo_bg.jpg" data-image="./static/image/logo_bg.jpg" data-caption="小图看大图" class="img-thumbnail" alt="" width="200">
-<img id="lightBoxToggle" src="./static/image/logo_bg.jpg" class="img-thumbnail" alt="" width="200">
-<button id="demo">demo</button>
+<div style="height:1000px;"></div>
+<img src="./static/image/usericon.jpg" data-src="https://www.liaoxuefeng.com/files/attachments/1182312922347168/l">
 <script>
 $(function() {
-	$("#lightBoxToggle").lightbox({
-		image: "./static/image/logo_bg.jpg"
+	var $window = $(window);
+	var lazyImgs = _.map($("img[data-src]").get(), function(i) {
+		return $(i);
 	});
-	
-	$("#demo").click(function() {
-		// 获取实例对象
-		var myLightBox = $('#lightBoxToggle').data('zui.lightbox');
-		// 立即显示
-		myLightBox.show();
-		// 更新图片和描述文本并立即显示
-		//myLightBox.show("./static/image/logo_bg.jpg", '新的图片');
-	});
-	
-	/* $("#lightBoxToggle").click(function() {
-		// 获取实例对象
-		var myLightBox = $('#lightBoxToggle').data('zui.lightbox');
-		// 立即显示
-		//myLightBox.show();
-		// 更新图片和描述文本并立即显示
-		myLightBox.show("./static/image/logo_bg.jpg", '新的图片');
-	}); */
+	var onScroll = function() {
+		var wtop = $window.scrollTop();
+		if (lazyImgs.length > 0) {
+			var wheight = $window.height();
+			var loadedIndex = [];
+			_.each(lazyImgs, function($i, index) {
+				if ($i.offset().top - wtop < wheight) {
+					$i.attr("src", $i.attr("data-src"));
+					loadedIndex.unshift(index);
+				}
+			});
+			_.each(loadedIndex, function(index) {
+				lazyImgs.splice(index, 1);
+			});
+		}
+	};
+	$window.scroll(onScroll);
+	onScroll();
 });
 </script>
 </body>

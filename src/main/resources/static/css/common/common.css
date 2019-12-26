@@ -1,3 +1,13 @@
+::-webkit-scrollbar {
+	width: 6px !important;
+	height: 6px !important;
+}
+
+::-webkit-scrollbar-thumb {
+	background-color: #49b1f5;
+	border-radius: 0px;
+}
+
 div#app {
 	width: 100%;
 	padding: 20px 10px 20px 10px;
@@ -5,31 +15,56 @@ div#app {
 	position: absolute;
 	height: 100%;
 	overflow: auto;
-	background:#fafafa;
+	/* background:#fafafa; */
 }
+
 #app .content {
 	height: 100%;
 }
-#app .table-content .panel-body{
+
+#app .table-content .panel-body {
 	height: calc(100% - 98px);
 }
-#app .table-content .panel-footer{
-	background:white;
-	padding:0px;
-	position:relative;
+
+#app .table-content .panel-footer {
+	background: white;
+	padding: 0px;
+	position: relative;
 }
-.panel-footer .pager{
-	margin:8px 0px 0px 0px;
+
+.panel-footer .pager {
+	margin: 8px 0px 0px 0px;
 }
+
 #app .content .panel-body {
 	overflow: auto;
 }
-#app .content .panel .panel-heading{
-	background:white;
+
+#app .content .panel .panel-heading {
+	background: white;
 }
+
 #app .panel {
 	height: 100%;
+	box-shadow: 0 4px 8px 6px rgba(7, 17, 27, .06);
+	transition: all .3s;
+	border: none;
 }
+
+.panel-heading i {
+	margin-right: 5px;
+}
+
+#app .panel:hover {
+	box-shadow: 0 4px 12px 12px rgba(7, 17, 27, .15);
+}
+#listPanel:hover{
+	box-shadow:0 4px 8px 6px rgba(7, 17, 27, .06) !important;
+}
+#mapContainerPanel:hover{
+	box-shadow:0 4px 8px 6px rgba(7, 17, 27, .06) !important;
+}
+
 div.edit-panel-div {
 	width: 400px;
 	height: 100%;
@@ -42,10 +77,12 @@ div.edit-panel-div {
 	transition: .5s;
 	box-shadow: 1px 1px 50px rgba(0, 0, 0, .3);
 }
+
 div.edit-panel-div.active {
 	right: 0px;
 	/* transform: translateX(0); */
 }
+
 div.edit-panel-div-shim {
 	position: fixed;
 	left: 0;
@@ -55,11 +92,13 @@ div.edit-panel-div-shim {
 	background: black;
 	transition: .5s;
 }
+
 div.edit-panel-div-shim.active {
 	opacity: 0.5;
 	width: 100%;
 	height: 100%;
 }
+
 div.edit-panel-div-title {
 	position: absolute;
 	font-size: 14px;
@@ -71,17 +110,19 @@ div.edit-panel-div-title {
 	background-color: #60c0dc;
 	text-align: left;
 }
+
 div.edit-panel-div-content {
 	position: absolute;
 	top: 42px;
 	padding: 20px;
 	width: 100%;
 	height: calc(100% - 106px);
-	overflow:auto;
+	overflow: auto;
 }
+
 div.edit-panel-div-footer {
 	box-shadow: 0 -1px 2px 0 rgba(0, 0, 0, .05);
-	background:white;
+	background: white;
 	position: absolute;
 	bottom: 0;
 	width: 100%;
@@ -89,23 +130,29 @@ div.edit-panel-div-footer {
 	line-height: 64px;
 	padding: 10px 0;
 }
+
 div.edit-panel-div-footer .btn {
 	margin-bottom: 20px;
 }
+
 div.edit-panel-div-footer .btn+.btn {
 	margin-left: 10px;
 }
+
 div#div4Add {
 	width: 400px;
 	margin: 0 auto;
 }
+
 div#pagination {
 	text-align: center;
 	line-height: 100px;
 }
+
 div#pagination a {
 	text-decoration: none;
 }
+
 td {
 	text-align: left;
 }
@@ -113,6 +160,7 @@ td {
 a {
 	text-decoration: none;
 }
+
 #top-div {
 	width: 100%;
 	display: flex;
@@ -124,7 +172,7 @@ a {
 }
 
 .search-div-more {
-	width:800px;
+	width: 800px;
 }
 
 .logout-div {

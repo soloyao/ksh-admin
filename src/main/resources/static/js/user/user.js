@@ -103,7 +103,7 @@ $(function() {
 	var data4Vue = {
 		roles: [],
 		users: [],
-		user4Add: {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []},
+		user4Add: {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", dljgid: "", dljgname: "", roles: []},
 		pagination: {},
 		keyword: "",
 		isEditShow: false,
@@ -136,6 +136,7 @@ $(function() {
 						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
 						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
 						new $.tree("zzjgmc", res.data.data);
+						new $.tree("dljg", res.data.data);
 					}
 				});
 			},
@@ -290,6 +291,8 @@ $(function() {
 				var url = "users";
 				_this.user4Add.zzjgdm = $("#zzjgmc").data("id");
 				_this.user4Add.zzjgmc = $("#zzjgmc").val();
+				_this.user4Add.dljgid = $("#dljg").data("id");
+				_this.user4Add.dljgname = $("#dljg").val();
 				_this.user4Add.roles = [];
 				zTreeObj.getCheckedNodes(true).map(function(item) {
 					_this.user4Add.roles.push({id: item.id});
@@ -298,7 +301,7 @@ $(function() {
 					axios.post(url, _this.user4Add).then(function(res) {
 						if (res.data.code == 0) {
 							_this.list(1);
-							_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
+							_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", dljgid: "", dljgname: "", roles: []};
 							myzui._success(res.data.msg);
 							_this.isEditShow = false;
 						} else {
@@ -308,7 +311,7 @@ $(function() {
 				} else { //update
 					axios.put(url, _this.user4Add).then(function(res) {
 						_this.list(1);
-						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
+						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", dljgid: "", dljgname: "", roles: []};
 						myzui._success(res.data);
 						_this.isEditShow = false;
 					});
@@ -322,10 +325,11 @@ $(function() {
 				this.editTitle = "新增";
 				$("#zzjgmc").data("id", "");
 				$("#zzjgmc").val("");
-				this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
+				this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", dljgid: "", dljgname: "", roles: []};
 				zTreeObj.checkNode(zTreeObj.getNodeByParam("jsmc", "默认警员角色", null), true ,false);
 			},
 			updateEdit: function(user) {
+				console.log(user);
 				this.isEditShow = true;
 				this.editTitle = "修改";
 				this.user4Add.id = user.id;
@@ -341,6 +345,8 @@ $(function() {
 				this.user4Add.isdel = user.isdel;
 				$("#zzjgmc").data("id", user.zzjgdm);
 				$("#zzjgmc").val(user.zzjgmc);
+				$("#dljg").data("id", user.dljgid);
+				$("#dljg").val(user.dljgname);
 				this.user4Add.qydm = user.qydm;
 				zTreeObj.checkNode(zTreeObj.getNodeByParam("id", user.roles.length > 0 ? user.roles[0].id : 0, null), true, false);
 			},
@@ -354,7 +360,7 @@ $(function() {
 				axios.post(url, this.user4Add).then(function(res) {
 					if (res.data.code == 0) {
 						_this.list(1);
-						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", roles: []};
+						_this.user4Add = {id: "", yhzh: "", yhmm: "", yhxm: "", jybh: "", jylx: "", zw: "", yhxb: "", sjhm: "", cjsj: "", isdel: "",zzjgdm: "", zzjgmc: "", qydm: "", dljgid: "", dljgname: "", roles: []};
 						myzui._success(res.data.msg);
 					} else {
 						myzui._error(res.data.msg);

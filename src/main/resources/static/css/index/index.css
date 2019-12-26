@@ -231,6 +231,9 @@ a.activeTabs{
 	background:#FF6C60 !important;
 	color:white !important;
 }
+.childrenMini{
+	color:#FF6C60;
+}
 .parent a{
 	color:white !important;
 }
@@ -491,6 +494,18 @@ a.activeTabs{
 	position:fixed;
 	transition:all .3s ease-in-out;
 	/* border-right: 1px solid #60c0dc; */
+}
+
+.mini-navigation{
+	width:50px;
+	height:100%;
+	font-family:arial;
+	float:left;
+	overflow:auto;
+	background:#243443;
+	position:fixed;
+	transition:all .3s ease-in-out;
+	left:-50px;
 }
 
 .bgchange {
