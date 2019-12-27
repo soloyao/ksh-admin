@@ -94,7 +94,7 @@
 			</div>
 		</div>
 		
-		<div class="col-md-2 content" style="height:calc(40% - 10px);">
+		<div class="col-md-2 content load-indicator" :class="isRoleLoading?'loading':''" data-loading="正在加载" style="height:calc(40% - 10px);">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
 					<button class="btn btn-success" @click="saveBatch"><i class="icon icon-exchange"></i>批量分配角色</button>

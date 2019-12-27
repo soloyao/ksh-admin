@@ -109,6 +109,7 @@ $(function() {
 		isEditShow: false,
 		isLoading: false,
 		isZzjgLoading: false,
+		isRoleLoading: false,
 		editTitle: "",
 		size: 10,
 		checkboxAllFlag: false,
@@ -188,6 +189,7 @@ $(function() {
 			},
 			listRoles: function() {
 				var _this = this;
+				_this.isRoleLoading = true;
 				var url = "listRoles"
 				axios.get(url).then(function(res) {
 					_this.roles = res.data;
@@ -197,6 +199,7 @@ $(function() {
 					zTreeObjBatch.checkNode(zTreeObjBatch.getNodeByParam("jsmc", "默认潮州警员角色", null), true ,false);
 					zTreeObj = $.fn.zTree.init($("#tree"), setting, zTreeNodes);
 					zTreeObjBatch.expandAll(true);
+					_this.isRoleLoading = false;
 					zTreeObj.expandAll(true);
 				});
 			},
