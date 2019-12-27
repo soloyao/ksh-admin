@@ -76,7 +76,6 @@ public class UserController {
 	}
 	
 	@GetMapping("/users")
-	@LogAnnotation(funs="用户管理页面",name="分页获取用户数据",type="query")
 	public PageInfo<User> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -95,7 +94,6 @@ public class UserController {
 	}
 	
 	@GetMapping("/users/{id}")
-	@LogAnnotation(funs="用户管理页面",name="根据编号获取用户数据",type="query")
 	public String get(@PathVariable("id") String id) {
 		User user = userService.get(id);
 		List<Role> roles = roleService.list(null);

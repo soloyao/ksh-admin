@@ -9,6 +9,10 @@
     		values(#{appName}, #{funs}, #{name}, #{msg}, #{userId}, #{userAccount}, #{userName}, #{ip}, #{type}, to_date(#{createtime},'yyyy-MM-dd hh24:mi:ss'), #{zzjgdm}, #{zzjgmc})
     	</insert>
     	<select id="list" resultType="SystemLog">
-    		select tid,appname,funs,name,msg,userid,useraccount,username,ip,type,to_char(createtime,'yyyy-MM-dd hh24:mi:ss'),zzjgdm,zzjgmc from t_sys_logs
+    		select tid,appname,funs,name,msg,userid,useraccount,username,ip,type,to_char(createtime,'yyyy-MM-dd hh24:mi:ss') as createtime,zzjgdm,zzjgmc from t_sys_logs
+    		where 1 = 1
+    		<if test="keyword != null">
+    			and name like #{keyword} or username like #{keyword}
+    		</if>
     	</select>
     </mapper>

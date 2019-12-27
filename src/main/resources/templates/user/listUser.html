@@ -11,7 +11,7 @@
 </head>
 <body>
 	<div id="app">
-		<div class="col-md-2 content">
+		<div class="col-md-2 content load-indicator" :class="isZzjgLoading?'loading':''" data-loading="正在加载">
 			<div class="panel">
 				<div class="panel-heading" style="height:49px;line-height:32px;">
 					<i class="icon icon-sitemap"></i>
@@ -107,7 +107,7 @@
 			</div>
 		</div>
 		
-		<div class="col-md-2 content" style="height:calc(60% - 10px);margin-top:20px;">
+		<div class="col-md-2 content load-indicator" :class="isZzjgLoading?'loading':''" data-loading="正在加载" style="height:calc(60% - 10px);margin-top:20px;">
 			<div class="panel">
 				<div class="panel-heading" style="text-align:left;">
 					<button class="btn btn-success" @click="saveBatchDljg"><i class="icon icon-exchange"></i>批量分配代理机构</button>

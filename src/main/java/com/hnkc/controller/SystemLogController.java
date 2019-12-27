@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.hnkc.annotation.LogAnnotation;
-import com.hnkc.pojo.Jyz;
 import com.hnkc.pojo.SystemLog;
 import com.hnkc.service.SystemLogService;
 
@@ -24,15 +22,11 @@ public class SystemLogController {
 	@GetMapping("/systemLogs")
 	public PageInfo<SystemLog> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
-			@RequestParam(value = "keyword", defaultValue = "") String keyword,
-			@RequestParam(value = "zzjgdm", defaultValue = "") String zzjgdm) {
+			@RequestParam(value = "keyword", defaultValue = "") String keyword) {
 		PageHelper.startPage(start, size, "createtime desc");
 		Map<String, String> paramMap = new HashMap<String, String>();
 		if (!StringUtils.isEmpty(keyword)) {
-			paramMap.put("keyword", keyword);
-		}
-		if (!StringUtils.isEmpty(zzjgdm)) {
-			paramMap.put("zzjgdm", zzjgdm);
+			paramMap.put("keyword", "%" + keyword + "%");
 		}
 		List<SystemLog> systemLogs = systemLogService.list(paramMap);
 		PageInfo<SystemLog> page = new PageInfo<SystemLog>(systemLogs, 5);

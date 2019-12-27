@@ -29,7 +29,6 @@ public class SpController {
 	@Autowired SpService spService;
 	
 	@GetMapping("/sps")
-	@LogAnnotation(funs="视频管理页面",name="分页获取视频数据",type="query")
 	public PageInfo<Sp> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class SpController {
 	}
 	
 	@GetMapping("/sps/{tid}")
-	@LogAnnotation(funs="视频管理页面",name="根据编号获取视频数据",type="query")
 	public Sp get(@PathVariable("tid") String tid) {
 		Sp sp = spService.get(tid);
 		return sp;

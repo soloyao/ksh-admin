@@ -29,7 +29,6 @@ public class WbController {
 	@Autowired WbService wbService;
 	
 	@GetMapping("/wbs")
-	@LogAnnotation(funs="网吧管理页面",name="分页获取网吧数据",type="query")
 	public PageInfo<Wb> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class WbController {
 	}
 	
 	@GetMapping("/wbs/{tid}")
-	@LogAnnotation(funs="网吧管理页面",name="根据编号获取网吧数据",type="query")
 	public Wb get(@PathVariable("tid") String tid) {
 		Wb wb = wbService.get(tid);
 		return wb;

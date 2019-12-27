@@ -29,7 +29,6 @@ public class LdController {
 	@Autowired LdService ldService;
 	
 	@GetMapping("/lds")
-	@LogAnnotation(funs="旅店管理页面",name="分页查询旅店数据",type="query")
 	public PageInfo<Ld> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class LdController {
 	}
 	
 	@GetMapping("/lds/{tid}")
-	@LogAnnotation(funs="旅店管理页面",name="根据编号查询旅店数据",type="query")
 	public Ld get(@PathVariable("tid") String tid) {
 		Ld ld = ldService.get(tid);
 		return ld;

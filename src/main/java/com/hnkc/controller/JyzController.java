@@ -29,7 +29,6 @@ public class JyzController {
 	@Autowired JyzService jyzService;
 	
 	@GetMapping("/jyzs")
-	@LogAnnotation(funs="加油站管理页面",name="分页查询加油站数据",type="query")
 	public PageInfo<Jyz> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class JyzController {
 	}
 	
 	@GetMapping("/jyzs/{tid}")
-	@LogAnnotation(funs="加油站管理页面",name="根据编号查询单个加油站数据",type="query")
 	public Jyz get(@PathVariable("tid") String tid) {
 		Jyz jyz = jyzService.get(tid);
 		return jyz;

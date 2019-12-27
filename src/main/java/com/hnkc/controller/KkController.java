@@ -29,7 +29,6 @@ public class KkController {
 	@Autowired KkService kkService;
 	
 	@GetMapping("/kks")
-	@LogAnnotation(funs="卡口管理页面",name="分页查询卡口数据",type="query")
 	public PageInfo<Kk> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class KkController {
 	}
 	
 	@GetMapping("/kks/{tid}")
-	@LogAnnotation(funs="卡口管理页面",name="根据编号查询卡口数据",type="query")
 	public Kk get(@PathVariable("tid") String tid) {
 		Kk kk = kkService.get(tid);
 		return kk;

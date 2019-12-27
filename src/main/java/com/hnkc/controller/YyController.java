@@ -29,7 +29,6 @@ public class YyController {
 	@Autowired YyService yyService;
 	
 	@GetMapping("/yys")
-	@LogAnnotation(funs="医院管理页面",name="分页获取医院数据",type="query")
 	public PageInfo<Yy> list(@RequestParam(value = "start", defaultValue = "1") int start,
 			@RequestParam(value = "size", defaultValue = "10") int size,
 			@RequestParam(value = "keyword", defaultValue = "") String keyword,
@@ -48,7 +47,6 @@ public class YyController {
 	}
 	
 	@GetMapping("/yys/{tid}")
-	@LogAnnotation(funs="医院管理页面",name="根据编号获取医院数据",type="query")
 	public Yy get(@PathVariable("tid") String tid) {
 		Yy yy = yyService.get(tid);
 		return yy;

@@ -108,6 +108,7 @@ $(function() {
 		keyword: "",
 		isEditShow: false,
 		isLoading: false,
+		isZzjgLoading: false,
 		editTitle: "",
 		size: 10,
 		checkboxAllFlag: false,
@@ -125,6 +126,8 @@ $(function() {
 		},
 		methods: {
 			listPcsTree() {
+				var _this = this;
+				_this.isZzjgLoading = true;
 				var url = "listPcsTree";
 				axios.get(url).then(function(res) {
 					if (res.data.code == 0) {
@@ -135,6 +138,7 @@ $(function() {
 						zTreeNodesZzjg = res.data.data;
 						zTreeObjZzjg = $.fn.zTree.init($("#treeZzjg"), settingZzjg, zTreeNodesZzjg);
 						zTreeObjZzjg.expandNode(zTreeObjZzjg.getNodeByParam("id", "440000000000", null), true);
+						_this.isZzjgLoading = false;
 						new $.tree("zzjgmc", res.data.data);
 						new $.tree("dljg", res.data.data);
 					}

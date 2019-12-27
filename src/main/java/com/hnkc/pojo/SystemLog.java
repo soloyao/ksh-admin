@@ -8,7 +8,7 @@ public class SystemLog {
 	private String msg = "";
 	private String userId = "";
 	private String userAccount = "";
-	private String userName = "";
+	private String userName = "匿名";
 	private String ip = "";
 	private String type = "";
 	private String createtime = "";
