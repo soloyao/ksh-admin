@@ -23,6 +23,7 @@ $(function() {
 		user: user,
 		isFullScreen: false,
 		showNav: "block",
+		home: {id: null, name: "home", url: "home"},
 		items: [] //左边导航处所有的菜单
 	};
 	
@@ -57,8 +58,12 @@ $(function() {
 				this.showNav = this.showNav == "block" ? "none" : "block";
 			},
 			refreshNav: function() {
-				if (typeof this.active != "undefined") {
-					$("iframe[src='" + this.active.url + "']").attr("src", this.active.url).ready();
+				if (this.active == null) {
+					$("iframe[src='home']").attr("src", "home").ready();
+				} else {
+					if (typeof this.active != "undefined") {
+						$("iframe[src='" + this.active.url + "']").attr("src", this.active.url).ready();
+					}
 				}
 			},
 			fullScreen: function() {
@@ -108,6 +113,13 @@ $(function() {
 				if (children == _this.active) {
 					_this.active = arr[arr.length - 1];
 				}
+				if (typeof _this.active == "undefined") {
+					_this.active = _this.home;
+					$("#tabsHome").addClass("activeTabs");
+					$("#ifrHome").addClass("active");
+					$("#ifrHome").removeClass("ifr-hide");
+				}
+				console.log(_this.active);
 			},
 			tabsClick: function(children) {
 				this.active = children;
@@ -116,12 +128,7 @@ $(function() {
 				$("#ifrHome").addClass("ifr-hide");
 			},
 			tabsClickHome: function() {
-				var home = {
-					id: null,
-					name: "home",
-					url: "home"
-				};
-				this.active = home;
+				this.active = this.home;
 				$("#tabsHome").addClass("activeTabs");
 				$("#ifrHome").addClass("active");
 				$("#ifrHome").removeClass("ifr-hide");
