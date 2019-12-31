@@ -1,39 +1,141 @@
 <!DOCTYPE html>
 <html lang="en" >
 <head>
-<meta charset="UTF-8">
-<title>Flip Card Clock</title>
-<script src="./static/js/common/jquery.min.js"></script>
-<script src="https://lib.baomitu.com/underscore.js/1.9.1/underscore-min.js"></script>
+	<meta charset="UTF-8">
+	<title>Flip Card Clock</title>
+	<div th:replace="include::include"></div>
+	<script src="./static/js/common/component-pager.js"></script>
+	<link href="./static/css/bootstrapStyle/bootstrapStyle.css" rel="stylesheet" />
+	<script src="./static/js/common/jquery.ztree.all.js"></script>
+	<script src="./static/js/common/inputTree.js"></script>
 </head>
 <body>
-<div style="height:1000px;"></div>
-<img src="./static/image/usericon.jpg" data-src="https://www.liaoxuefeng.com/files/attachments/1182312922347168/l">
+<ul id="tree" class="ztree"></ul>
 <script>
-$(function() {
-	var $window = $(window);
-	var lazyImgs = _.map($("img[data-src]").get(), function(i) {
-		return $(i);
-	});
-	var onScroll = function() {
-		var wtop = $window.scrollTop();
-		if (lazyImgs.length > 0) {
-			var wheight = $window.height();
-			var loadedIndex = [];
-			_.each(lazyImgs, function($i, index) {
-				if ($i.offset().top - wtop < wheight) {
-					$i.attr("src", $i.attr("data-src"));
-					loadedIndex.unshift(index);
-				}
-			});
-			_.each(loadedIndex, function(index) {
-				lazyImgs.splice(index, 1);
-			});
-		}
-	};
-	$window.scroll(onScroll);
-	onScroll();
-});
+	var setting = {
+	        view: {
+	            addHoverDom: addHoverDom,//显示操作图标
+	            removeHoverDom: removeHoverDom,//移除图标
+	            selectedMulti: false
+	        },
+	        check: {
+	            enable: true
+	        },
+	        data: {
+	            simpleData: {
+	                enable: true
+	            }
+	        },
+	        callback: {
+	            onRename: zTreeOnRename,//修改
+	            onRemove: zTreeOnRemove,//删除
+	            onClick: zTreeOnClickRight,
+
+	        },
+	        edit: {
+	            enable: true,
+	            showRemoveBtn: true,
+	            showRenameBtn: true,
+	            removeTitle: "删除",
+	            renameTitle: "修改"
+	        }
+	    };
+	$(document).ready(function () {
+        /* $.ajax({
+            url: "GetZtreeJson",
+            data: { ProjectId: "@ViewBag.ProjectId" },
+            type: "post",
+            dataType: "json",
+            success: function (data) {
+                $.fn.zTree.init($("#test"), setting, data);//实现加载树的方法
+            }
+        })
+        $("#btnReturn").click(function () {
+            window.parent.frameReturnByClose();
+        }); */
+        $.fn.zTree.init($("#tree"), setting, [{"name":"上午","id":"2","pid":"1"},{"name":"中午","id":"3","pid":"1"},{"name":"下午","id":"4","pid":"1"}]);
+        //$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+    });
+
+    var newCount = 1;
+    function addHoverDom(treeId, treeNode) {
+        var sObj = $("#" + treeNode.tId + "_span");
+        if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
+        var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
+            + "' title='add node' onfocus='this.blur();'></span>";
+        sObj.after(addStr);
+        var btn = $("#addBtn_" + treeNode.tId);
+        if (btn) btn.bind("click", function () {
+            var zTree = $.fn.zTree.getZTreeObj("test");
+   //增加节点的方法
+            $.ajax({
+                url: "AddNode",
+                data: { ParentId: treeNode.id },
+                type: "post",
+                success: function (data) {
+                    if (data.message == "success") {
+                             //此方法是js在前段增加节点方法，一定要通过后台返回的id来增加，不然新增的节点会出现节点id为null的问题
+                        zTree.addNodes(treeNode, { id: data.id, ParentId: treeNode.id, name: "new node" + (newCount++) });
+                    }
+                    else {
+                        $.messageBox5s('@Resource.Tip', "新增节点失败！联系管理员！");
+                    }
+                }
+            })
+
+
+            return false;
+        });
+    };
+//删除节点
+    function zTreeOnRemove(event, treeId, treeNode) {
+        {
+            $.ajax({
+                url: "DeleteNode",
+                type: "post",
+                data: { NodeId: treeNode.id },
+                success: function (data) {
+                    if (data == "success") {
+
+
+                    }
+                    else {
+                        $.messageBox5s('@Resource.Tip', "删除节点失败！联系管理员！");
+                    }
+                }
+            })
+        }
+    }
+
+    function removeHoverDom(treeId, treeNode) {
+        $("#addBtn_" + treeNode.tId).unbind().remove();
+
+    };
+//修改节点
+    function zTreeOnRename(event, treeId, treeNode) {
+        $.ajax({
+            url: "EditNode",
+            type: "post",
+            data: { NodeId: $.trim(treeNode.id), name: treeNode.name },
+            success: function (data) {
+                if (data != "success") {
+                    $.messageBox5s('@Resource.Tip', "修改节点失败！联系管理员！");
+                }
+            }
+        })
+    };
+    // 树的单击事件         
+    function zTreeOnClickRight(event, treeId, treeNode) {
+        var treeid = treeNode.id;
+        $("#hidId").val(treeid);
+
+        $("#ifm").attr("src", "FileView?NodeId=" + treeid);
+    }
+
+    function treeShow(data) {
+        zTreeObj = $.fn.zTree.init($("#test"), setting, data);
+        zTreeObj.expandAll(true);
+    }
 </script>
 </body>
 </html>
