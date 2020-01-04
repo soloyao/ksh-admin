@@ -18,9 +18,9 @@
 	            removeHoverDom: removeHoverDom,//移除图标
 	            selectedMulti: false
 	        },
-	        check: {
+	        /* check: {
 	            enable: true
-	        },
+	        }, */
 	        data: {
 	            simpleData: {
 	                enable: true
@@ -54,7 +54,6 @@
             window.parent.frameReturnByClose();
         }); */
         $.fn.zTree.init($("#tree"), setting, [{"name":"上午","id":"2","pid":"1"},{"name":"中午","id":"3","pid":"1"},{"name":"下午","id":"4","pid":"1"}]);
-        //$.fn.zTree.init($("#treeDemo"), setting, zNodes);
     });
 
     var newCount = 1;
@@ -62,12 +61,13 @@
         var sObj = $("#" + treeNode.tId + "_span");
         if (treeNode.editNameFlag || $("#addBtn_" + treeNode.tId).length > 0) return;
         var addStr = "<span class='button add' id='addBtn_" + treeNode.tId
-            + "' title='add node' onfocus='this.blur();'></span>";
+            + "' title='新增' onfocus='this.blur();'></span>";
         sObj.after(addStr);
         var btn = $("#addBtn_" + treeNode.tId);
         if (btn) btn.bind("click", function () {
-            var zTree = $.fn.zTree.getZTreeObj("test");
+            var zTree = $.fn.zTree.getZTreeObj("tree");
    //增加节点的方法
+   console.log({ParentId:treeNode.id});
             $.ajax({
                 url: "AddNode",
                 data: { ParentId: treeNode.id },
@@ -90,6 +90,7 @@
 //删除节点
     function zTreeOnRemove(event, treeId, treeNode) {
         {
+        	console.log({NodeId:treeNode.id});
             $.ajax({
                 url: "DeleteNode",
                 type: "post",
@@ -113,6 +114,7 @@
     };
 //修改节点
     function zTreeOnRename(event, treeId, treeNode) {
+	console.log({NodeId:$.trim(treeNode.id),name:treeNode.name});
         $.ajax({
             url: "EditNode",
             type: "post",
@@ -127,6 +129,7 @@
     // 树的单击事件         
     function zTreeOnClickRight(event, treeId, treeNode) {
         var treeid = treeNode.id;
+        console.log(treeid);
         $("#hidId").val(treeid);
 
         $("#ifm").attr("src", "FileView?NodeId=" + treeid);
